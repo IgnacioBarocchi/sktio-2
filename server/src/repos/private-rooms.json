@@ -1,0 +1,58 @@
+[
+  {
+    "room": "d",
+    "token": "2",
+    "acceptMedia": true,
+    "acceptLinks": true,
+    "maxUsers": 2,
+    "region": "argentina"
+  },
+  {
+    "room": "ppp",
+    "token": "123",
+    "acceptMedia": true,
+    "acceptLinks": true,
+    "maxUsers": 2,
+    "region": "argentina"
+  },
+  {
+    "room": "",
+    "token": "        ",
+    "acceptMedia": false,
+    "acceptLinks": false,
+    "maxUsers": 2,
+    "region": "argentina"
+  },
+  {
+    "room": "dda",
+    "token": "        ",
+    "acceptMedia": true,
+    "acceptLinks": true,
+    "maxUsers": 2,
+    "region": "brazil"
+  },
+  {
+    "room": "123123",
+    "token": "1231241 ",
+    "acceptMedia": false,
+    "acceptLinks": true,
+    "maxUsers": "3",
+    "region": "chile"
+  },
+  {
+    "room": "room!!!!",
+    "token": "45564655",
+    "acceptMedia": false,
+    "acceptLinks": false,
+    "maxUsers": "6",
+    "region": "brazil"
+  },
+  {
+    "room": "v b b ",
+    "token": "34252352",
+    "acceptMedia": true,
+    "acceptLinks": false,
+    "maxUsers": 2,
+    "region": "argentina"
+  }
+]
