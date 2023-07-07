@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { StyledBackground } from "../../UI/Background";
 import { Socket } from "socket.io-client";
-import { useApplicationState } from "../../../containers/Context";
 import { StyledInputWithButton } from "../../UI/Input";
-import { dispatchJoinRoom } from "../../../lib/SocketDispatcher";
 import styled from "styled-components";
 import UI from "../../../constants/UI";
 import { useSktioStore } from "../../../store/store";
@@ -65,13 +63,19 @@ export const Li = styled(StyledBackground).attrs({
 `;
 
 export const JoinRoom = ({ socket }: { socket: Socket }) => {
-  const { sessionState, setSessionState, roomsState, setRoomsState } =
-    useSktioStore((state) => ({
-      sessionState: state.sessionState,
-      setSessionState: state.setSessionState,
-      roomsState: state.roomsState,
-      setRoomsState: state.setRoomsState,
-    }));
+  const {
+    sessionState,
+    setSessionState,
+    roomsState,
+    setRoomsState,
+    setMessagesState2,
+  } = useSktioStore((state) => ({
+    sessionState: state.sessionState,
+    setSessionState: state.setSessionState,
+    roomsState: state.roomsState,
+    setRoomsState: state.setRoomsState,
+    setMessagesState2: state.setMessagesState2,
+  }));
 
   const [roomId, setRoomId] = useState<string>("");
 
@@ -83,6 +87,13 @@ export const JoinRoom = ({ socket }: { socket: Socket }) => {
         fromUserId: sessionState.userId,
         fromUserColorIndex: sessionState.userColorIndex,
         leavingRoomId: sessionState.room,
+      });
+      // !clean history
+
+      setMessagesState2({
+        sent: [],
+        recieved: [],
+        system: [],
       });
 
       socket.emit(JOIN_ROOM_EVENT, {

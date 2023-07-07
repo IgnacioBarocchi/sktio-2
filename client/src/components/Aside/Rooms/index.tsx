@@ -27,14 +27,21 @@ export const Rooms = ({ socket }: { socket: Socket }) => {
   // } = useApplicationState();
   //
 
-  const { roomsState, setRoomsState, UIState, sessionState, setSessionState } =
-    useSktioStore((state) => ({
-      roomsState: state.roomsState,
-      setRoomsState: state.setRoomsState,
-      UIState: state.UIState,
-      sessionState: state.sessionState,
-      setSessionState: state.setSessionState,
-    }));
+  const {
+    roomsState,
+    setRoomsState,
+    UIState,
+    sessionState,
+    setSessionState,
+    setMessagesState2,
+  } = useSktioStore((state) => ({
+    roomsState: state.roomsState,
+    setRoomsState: state.setRoomsState,
+    UIState: state.UIState,
+    sessionState: state.sessionState,
+    setSessionState: state.setSessionState,
+    setMessagesState2: state.setMessagesState2,
+  }));
 
   // Define a new state variable to keep track of the hovered room ID
   const [hoveredRoomId, setHoveredRoomId] = useState("");
@@ -72,6 +79,13 @@ export const Rooms = ({ socket }: { socket: Socket }) => {
         fromUserId: sessionState.userId,
         fromUserColorIndex: sessionState.userColorIndex,
         leavingRoomId: sessionState.room,
+      });
+      // !clean history
+
+      setMessagesState2({
+        sent: [],
+        recieved: [],
+        system: [],
       });
 
       socket.emit(JOIN_ROOM_EVENT, {
