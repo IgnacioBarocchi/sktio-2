@@ -22,10 +22,10 @@ import {
 
 // @ts-ignore
 const MediaUploader = ({ socket }: { socket: Socket }) => {
-  const {
-    state: { session },
-    dispatch,
-  } = useApplicationState();
+  // const {
+  //   state: { session },
+  //   dispatch,
+  // } = useApplicationState();
   const [imageBase64, setImageBase64] = useState<string>("");
 
   const [hoverState, setHoverState] = useState({

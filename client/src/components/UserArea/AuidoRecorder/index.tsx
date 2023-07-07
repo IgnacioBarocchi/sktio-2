@@ -8,12 +8,17 @@ import { Socket } from "socket.io-client";
 import Icon from "../../UI/Icon";
 import SoundVisualizer from "./AudiRecorderElements";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
+import { useSktioStore } from "../../../store/store";
 
 const AudioRecorder = ({ socket }: { socket: Socket }) => {
-  const {
-    state: { session },
-    dispatch,
-  } = useApplicationState();
+  // const {
+  //   state: { session },
+  //   dispatch,
+  // } = useApplicationState();
+
+  const { sessionState } = useSktioStore((state) => ({
+    sessionState: state.sessionState,
+  }));
   const [isRecording, setIsRecording] = useState(false);
 
   const startRecording = () => {
@@ -24,9 +29,10 @@ const AudioRecorder = ({ socket }: { socket: Socket }) => {
     setIsRecording(false);
   };
 
-  const onData = (recordedBlob: any) => {
-    // console.log("chunk of real-time data is: ", recordedBlob);
-  };
+  // todo dispatch recording event
+  // const onData = (recordedBlob: any) => {
+  // console.log("chunk of real-time data is: ", recordedBlob);
+  // };
 
   const onStop = (recordedBlob: any) => {
     const reader = new FileReader();
@@ -42,23 +48,22 @@ const AudioRecorder = ({ socket }: { socket: Socket }) => {
         };
         socket.emit(SEND_MESSAGE_EVENT, {
           media,
-          room: session.room,
-          userId: session.userId,
-          userColor: session.userColor,
-          userColorIndex: session.userColorIndex,
-          userAlias: session.userAlias,
+          room: sessionState.room,
+          userId: sessionState.userId,
+          userColorIndex: sessionState.userColorIndex,
+          userAlias: sessionState.userAlias,
         });
 
-        dispatch({
-          type: "UPDATE_MESSAGING_DATA_STATE",
-          payload: {
-            sent: {
-              text: "",
-              media,
-              isSent: true,
-            },
-          },
-        });
+        // dispatch({
+        //   type: "UPDATE_MESSAGING_DATA_STATE",
+        //   payload: {
+        //     sent: {
+        //       text: "",
+        //       media,
+        //       isSent: true,
+        //     },
+        //   },
+        // });
       }
     };
   };
@@ -73,7 +78,9 @@ const AudioRecorder = ({ socket }: { socket: Socket }) => {
 
       <SoundVisualizer
         onStop={onStop}
-        onData={onData}
+        onData={() => {
+          console.log("todo dispatch recording event");
+        }}
         isRecording={isRecording}
       />
     </FlexBoxWithSpacing>

@@ -1,3 +1,4 @@
+import { SessionState } from "../../@types/Session";
 import { Message } from "./MessagesTypes";
 /**
 Returns the metadata information of a given message including the username and color of the user who sent the message, 
@@ -14,7 +15,7 @@ export const getMessageMetadata = (
   message: Message,
   i: number,
   messages: Message[],
-  session: { userAlias: string; userId: string; userColorIndex: number },
+  session: SessionState,
   themeContext: any
 ) => {
   const { fromUserId, isSent, fromUserAlias, fromUserColorIndex, fromSystem } =
@@ -59,7 +60,7 @@ const getUsername = (
   i: number,
   isPrevSameUser: boolean,
   isSent: boolean,
-  userAlias: string,
+  userAlias: string | undefined,
   currentCompleteAlias: string,
   you: string,
   fromUserAlias: string,

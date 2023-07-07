@@ -24,8 +24,8 @@ const SoundVisualizer = ({ onStop, onData, isRecording }) => {
       className="sound-wave"
       onStop={onStop}
       onData={onData}
-      strokeColor={themeContext.color.primary}
-      backgroundColor={themeContext.background.primary}
+      strokeColor={themeContext?.color.primary}
+      backgroundColor={themeContext?.background.primary}
     />
   );
 };

@@ -16,10 +16,10 @@ import { checkboxData } from "./checkboxData";
 
 // @ts-ignore
 const SessionForm = ({ theme, setTheme }) => {
-  const {
-    state: { session, settings },
-    dispatch,
-  } = useApplicationState();
+  // const {
+  //   state: { session, settings },
+  //   dispatch,
+  // } = useApplicationState();
   const [showSettings, setShowSettings] = useState(true);
   const [selectedCheckboxIndex, setSelectedCheckboxIndex] = useState(-1);
 

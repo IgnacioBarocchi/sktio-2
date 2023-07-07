@@ -11,27 +11,8 @@ import Layout from "../Layout";
 import WebSocketManager from "../../containers/WebSocketManager";
 import UI from "../../constants/UI";
 const App = () => {
-  const {
-    state: { uiVariables },
-    dispatch,
-  } = useApplicationState();
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   useIcons();
-  useEffect(() => {
-    URLtoRoom(dispatch);
-    const handleResize = () => {
-      dispatch({
-        type: "UPDATE_UI_STATE",
-        payload: { isSmallDevice: window.innerWidth < 768 },
-      });
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
     <>
       <AppHelmet />
@@ -40,7 +21,8 @@ const App = () => {
           <ThemeProvider theme={UI.themes[theme]}>
             <GlobalStyle />
             <Layout
-              isSmallDevice={uiVariables.isSmallDevice}
+              // uiVariables.isSmallDevice
+              isSmallDevice={false}
               // @ts-ignore
               socket={socket}
               setTheme={setTheme}
@@ -54,3 +36,23 @@ const App = () => {
 };
 
 export default App;
+
+// const {
+//   state: { uiVariables },
+//   dispatch,
+// } = useApplicationState();
+// useEffect(() => {
+//   // !not used URLtoRoom
+//   URLtoRoom(dispatch);
+//   const handleResize = () => {
+//     dispatch({
+//       type: "UPDATE_UI_STATE",
+//       payload: { isSmallDevice: window.innerWidth < 768 },
+//     });
+//   };
+
+//   handleResize();
+//   window.addEventListener("resize", handleResize);
+
+//   return () => window.removeEventListener("resize", handleResize);
+// }, []);

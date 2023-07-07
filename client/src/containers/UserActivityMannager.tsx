@@ -3,7 +3,7 @@ import { useApplicationState } from "../containers/Context";
 // @ts-ignore
 const UserActivityManager = ({ children }) => {
   const [userIsActive, setUserIsActive] = useState(true);
-  const { dispatch } = useApplicationState();
+  // const { dispatch } = useApplicationState();
   useEffect(() => {
     console.count("use UserActivityManager");
     const handleMouseMove = () => setUserIsActive(true);

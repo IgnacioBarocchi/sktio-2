@@ -8,6 +8,7 @@ import { getMessageMetadata } from "./MessagesHelper";
 import UserArea from "../UserArea";
 import { MessageOPTProps } from "../../@types/Message/Message";
 import { ThemeContext } from "styled-components";
+import { useSktioStore } from "../../store/store";
 
 interface Message extends MessageOPTProps {
   fromUserColor: string;
@@ -21,9 +22,20 @@ interface Message extends MessageOPTProps {
 const Chat = ({ socket }: { socket: Socket }) => {
   const themeContext = useContext(ThemeContext);
 
-  const {
-    state: { session, settings, messages, uiVariables },
-  } = useApplicationState();
+  // const {
+  //   state: { session, settings, messages, uiVariables },
+  // } = useApplicationState();
+
+  const { sessionState, userSettingsState, messagesState2 } = useSktioStore(
+    (state) => ({
+      sessionState: state.sessionState,
+      userSettingsState: state.userSettingsState,
+      messagesState2: state.messagesState2,
+    })
+  );
+
+  console.log(messagesState2);
+  // const messages =[...messagesState2]
 
   const scrollRef = useRef(null);
 
@@ -47,8 +59,10 @@ const Chat = ({ socket }: { socket: Socket }) => {
     const { username, color } = getMessageMetadata(
       singleMessage,
       i,
+      // [],
       messages,
-      session,
+      // session,
+      sessionState,
       themeContext
     );
     const { isSent, text, fromSystem, media } = singleMessage;
@@ -78,10 +92,15 @@ const Chat = ({ socket }: { socket: Socket }) => {
 
   return (
     <>
-      <Messages isSmallDevice={uiVariables.isSmallDevice}>
-        {settings.useHistory && messages && messages.map(mapMessages)}
+      {/* <Messages isSmallDevice={uiVariables.isSmallDevice}> */}
+      <Messages isSmallDevice={false}>
+        {/* {settings.useHistory && messages && messages.map(mapMessages)} */}
+        {userSettingsState.useHistory &&
+          messagesState2 &&
+          [].concat(...Object.values(messagesState2)).map(mapMessages)}
       </Messages>
-      {session.room && <UserArea socket={socket} />}
+      {sessionState.room && <UserArea socket={socket} />}
+      {/* {session.room && <UserArea socket={socket} />} */}
     </>
   );
 };

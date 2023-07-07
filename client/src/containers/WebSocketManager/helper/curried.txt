@@ -17,34 +17,34 @@ import { RoomsState } from "../../../@types/Room";
 import { MessagesState } from "../../../@types/Message";
 
 const system = System.getInstance();
-export const getSocketEventHandlers = (
-  messagesState2: MessagesState,
-  setMessagesState2: (value: MessagesState) => void,
-  roomsState: RoomsState,
-  setRoomsState: (value: RoomsState) => void
-) => {
-  const dispatchNewMessageData = (data: ReceiveMessagePayload) => {
-    alert("ReceiveMessage");
+
+const getDispatchNewMessageData =
+  (data: ReceiveMessagePayload, messagesState2, setMessagesState2) => () => {
+    console.log("ReceiveMessage");
     const recievedPayload: RecievedMessagePayload = {
       read: false,
       text: data.message,
       media: data.media,
-      isSent: false,
       fromUserId: data.userId,
       fromUserColorIndex: Number(data.userColorIndex),
       userColorIndex: data.userColorIndex,
       fromUserAlias: data.userAlias,
     };
 
+    // messagesState2.recieved.push(recievedPayload);
     messagesState2.recieved.push(recievedPayload);
     setMessagesState2(messagesState2);
   };
 
-  const dispatchRoomUpdateData = (
+const getDispatchRoomUpdateData =
+  (
     data: SystemMessagePayload,
-    text: SystemMessageType
-  ) => {
-    alert("update room");
+    text: SystemMessageType,
+    messagesState2,
+    setMessagesState2
+  ) =>
+  () => {
+    console.log("update room");
 
     const systemPayload: SystemMessagePayload = {
       fromSystem: true,
@@ -52,7 +52,6 @@ export const getSocketEventHandlers = (
       fromUserColor: data.fromUserColor,
       fromUserColorIndex: data.fromUserColorIndex,
       text,
-      isSent: false,
     };
     messagesState2.system.push(systemPayload);
     setMessagesState2(messagesState2);
@@ -65,6 +64,25 @@ export const getSocketEventHandlers = (
     // });
   };
 
+export const getSocketEventHandlers = (
+  messagesState2: MessagesState,
+  setMessagesState2: (value: MessagesState) => void,
+  roomsState: RoomsState,
+  setRoomsState: (value: RoomsState) => void
+) => {
+  console.log("getSocketEventHandlers");
+  const dispatchNewMessageData = getDispatchNewMessageData(
+    data,
+    messagesState2,
+    setMessagesState2
+  );
+  const dispatchRoomUpdateData = dispatchRoomUpdateData(
+    data
+    text,
+    messagesState2,
+    setMessagesState2,
+  );
+
   const socketEventHandlers = [
     {
       eventName: RECEIVE_MESSAGE_EVENT,
@@ -73,7 +91,7 @@ export const getSocketEventHandlers = (
     {
       eventName: RECEIVE_ROOM_UPDATE_EVENT,
       handler: (data: SystemMessagePayload) => {
-        alert("dentro del hadler " + RECEIVE_ROOM_UPDATE_EVENT);
+        console.log("dentro del hadler " + RECEIVE_ROOM_UPDATE_EVENT);
         dispatchRoomUpdateData(
           data,
           system.Label.LEFT_THE_ROOM as unknown as SystemMessageType
@@ -83,7 +101,7 @@ export const getSocketEventHandlers = (
     {
       eventName: RECEIVE_JOINING_EVENT,
       handler: (data: SystemMessagePayload) => {
-        alert("dentro del hadler " + RECEIVE_JOINING_EVENT);
+        console.log("dentro del hadler " + RECEIVE_JOINING_EVENT);
         dispatchRoomUpdateData(
           data,
           system.Label.JOINED_THE_ROOM as unknown as SystemMessageType
@@ -93,12 +111,13 @@ export const getSocketEventHandlers = (
     {
       eventName: SET_PUBLIC_ROOMS,
       handler: (data: PublicRoom[]) => {
-        alert("dentro del hadler " + SET_PUBLIC_ROOMS);
+        console.log("dentro del hadler " + SET_PUBLIC_ROOMS);
         roomsState.publicRooms = data;
         setRoomsState(roomsState);
         // dispatch({ type: "SET_PUBLIC_ROOMS", payload: data })
       },
     },
   ];
+
   return socketEventHandlers;
 };

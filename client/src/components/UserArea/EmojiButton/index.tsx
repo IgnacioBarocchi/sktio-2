@@ -8,16 +8,17 @@ import { useApplicationState } from "../../../containers/Context";
 // @ts-ignore
 export const SelectEmoji = ({ inputRef }) => {
   const [selectedEmoji, setSelectedEmoji] = useState<string>("");
-  const { dispatch } = useApplicationState();
+  // const { dispatch } = useApplicationState();
 
   function onClick(emojiData: EmojiClickData, event: MouseEvent) {
     setSelectedEmoji(emojiData.unified);
-    dispatch({
-      type: "UPDATE_UI_STATE",
-      payload: {
-        emojiPickerIsVisible: false,
-      },
-    });
+    // todo dispatch UI event
+    // dispatch({
+    //   type: "UPDATE_UI_STATE",
+    //   payload: {
+    //     emojiPickerIsVisible: false,
+    //   },
+    // });
 
     inputRef.current.value = inputRef.current.value
       ? `${inputRef.current.value}${emojiData.emoji}`

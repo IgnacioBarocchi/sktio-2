@@ -10,47 +10,38 @@ import { useApplicationState } from "../../../containers/Context";
 import { useState } from "react";
 import SessionForm from "../SessionForm";
 import Rooms from "../Rooms";
+import { SktioStoreState, useSktioStore } from "../../../store/store";
 
 // @ts-ignore
 const AsideMenu = ({ socket, theme, setTheme }) => {
-  const {
-    state: { session, uiVariables },
-  } = useApplicationState();
-  const [tabIndex, setTabIndex] = useState<number>(uiVariables.selectedTab);
+  // const {
+  //   state: { session, uiVariables },
+  // } = useApplicationState();
 
-  const animateTabs = (currentIndex: number, targetIndex: number) => {
-    const animateTo = (index: number, target: number) => {
-      if (index === target) {
-        console.log("done");
-        return;
-      }
-      setTimeout(() => {
-        animateTo(index + 1, target);
-        setTabIndex(index + 1);
-      }, 1500);
-    };
+  const { UIState, sessionState } = useSktioStore((state: SktioStoreState) => ({
+    UIState: state.UIState,
+    sessionState: state.sessionState,
+  }));
 
-    if (currentIndex > targetIndex) {
-      animateTo(currentIndex - 1, targetIndex);
-    } else {
-      animateTo(currentIndex + 1, targetIndex);
-    }
-  };
   return (
-    <Aside isSmallDevice={uiVariables.isSmallDevice}>
+    // <Aside isSmallDevice={uiVariables.isSmallDevice}>
+    // UIState.isSmallDevice
+    <Aside isSmallDevice={false}>
       <STabs
         // selectedIndex={tabIndex}
         // onSelect={animateTabs}
         selectedTabClassName="is-selected"
         selectedTabPanelClassName="is-selected"
       >
-        <Nav isSmallDevice={uiVariables.isSmallDevice}>
+        {/* <Nav isSmallDevice={uiVariables.isSmallDevice}> */}
+        <Nav isSmallDevice={false}>
           <STabList>
             <STab tabIndex="1">rooms</STab>
             <STab tabIndex="2">join</STab>
             <STab tabIndex="3">create</STab>
             <STab tabIndex="4">settings</STab>
-            {uiVariables.isSmallDevice && <STab tabIndex="5">chat</STab>}
+            {/* {uiVariables.isSmallDevice && <STab tabIndex="5">chat</STab>} */}
+            {UIState.isSmallDevice && <STab tabIndex="5">chat</STab>}
           </STabList>
         </Nav>
         <STabPanel>
@@ -65,13 +56,16 @@ const AsideMenu = ({ socket, theme, setTheme }) => {
         <STabPanel>
           <SessionForm theme={theme} setTheme={setTheme} />
         </STabPanel>
-        {uiVariables.isSmallDevice && (
+        {/* {uiVariables.isSmallDevice && ( */}
+        {UIState.isSmallDevice && (
           <STabPanel>
             <SystemMessage />
-            {session.room ? (
+            {/* {session.room ? ( */}
+            {sessionState.room ? (
               <Chat socket={socket} />
             ) : (
-              <LandingForm isSmallDevice={uiVariables.isSmallDevice} />
+              // <LandingForm isSmallDevice={uiVariables.isSmallDevice} />
+              <LandingForm isSmallDevice={UIState.isSmallDevice} />
             )}
           </STabPanel>
         )}

@@ -6,45 +6,39 @@ import SelectEmoji from "./EmojiButton";
 import MediaUploader from "./MediaUploader";
 import AudioRecorder from "./AuidoRecorder";
 
-import { useApplicationState } from "../../containers/Context";
 import { SEND_MESSAGE_EVENT } from "../../lib/socketEvents";
 import { StyledInputWithButton } from "../UI/Input";
 import Icon from "../UI/Icon";
 import { FlexBoxWithSpacing } from "../UI/Spacing";
+import { useSktioStore } from "../../store/store";
 
 // @ts-ignore
 const UserArea = ({ socket }) => {
-  const {
-    state: {
-      session,
-      settings,
-      uiVariables: { emojiPickerIsVisible },
-    },
-    dispatch,
-  } = useApplicationState();
-
   const [message, setMessage] = useState("");
+
+  const { messagesState2, setMessagesState2, userSettingsState, sessionState } =
+    useSktioStore((state) => ({
+      userSettingsState: state.userSettingsState,
+      UIState: state.UIState,
+      sessionState: state.sessionState,
+      messagesState2: state.messagesState2,
+      setMessagesState2: state.setMessagesState2,
+    }));
 
   const sendMessage = () => {
     socket.emit(SEND_MESSAGE_EVENT, {
       message,
-      room: session.room,
-      userId: session.userId,
-      userColor: session.userColor,
-      userColorIndex: session.userColorIndex,
-      userAlias: session.userAlias,
+      room: sessionState.room,
+      userId: sessionState.userId,
+      // userColor: sessionState.userColor,
+      userColorIndex: sessionState.userColorIndex,
+      userAlias: sessionState.userAlias,
     });
 
-    dispatch({
-      type: "UPDATE_MESSAGING_DATA_STATE",
-
-      payload: {
-        sent: {
-          text: message,
-          isSent: true,
-        },
-      },
-    });
+    // UPDATE_MESSAGING_DATA_STATE
+    const payload = { text: message, isSent: true };
+    messagesState2.sent.push(payload);
+    setMessagesState2(messagesState2);
 
     // @ts-ignore
     inputRef.current.value = "";
@@ -54,15 +48,15 @@ const UserArea = ({ socket }) => {
 
   return (
     <Container key={"Container"}>
-      {emojiPickerIsVisible && <SelectEmoji inputRef={inputRef} />}
+      {/* {emojiPickerIsVisible && <SelectEmoji inputRef={inputRef} />} */}
       <EmojiButtom
         onClick={() => {
-          dispatch({
-            type: "UPDATE_UI_STATE",
-            payload: {
-              emojiPickerIsVisible: !emojiPickerIsVisible,
-            },
-          });
+          /* dispatch({
+             type: "UPDATE_UI_STATE",
+             payload: {
+               emojiPickerIsVisible: !emojiPickerIsVisible,
+             },
+           });*/
         }}
       >
         <Icon icon="face-smile" size={"2x"} />
@@ -78,7 +72,8 @@ const UserArea = ({ socket }) => {
           buttons={[{ onClick: sendMessage, icon: "paper-plane" }]}
           key={"MessageInput"}
           inputRef={inputRef}
-          inputPlaceholder={`Message room ${session.room}`}
+          // inputPlaceholder={`Message room ${session.room}`}
+          inputPlaceholder={`Message room ${sessionState.room}`}
           handleInputOnChange={(event: {
             target: { value: SetStateAction<string> };
           }) => {
@@ -86,7 +81,8 @@ const UserArea = ({ socket }) => {
           }}
           handleInputOnKeyPress={(event: { key: string }) => {
             if (
-              !settings.useButtons &&
+              // !settings.useButtons &&
+              // !userSettingsState.useButtons &&
               event.key === "Enter" &&
               message !== ""
             ) {
@@ -95,7 +91,8 @@ const UserArea = ({ socket }) => {
           }}
         />
       </div>
-      {settings.aceptMedia && (
+      {/* {settings.aceptMedia && ( */}
+      {userSettingsState.aceptMedia && (
         <div
           style={{
             gridArea: "input-media-area",

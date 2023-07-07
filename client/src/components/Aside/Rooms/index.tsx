@@ -11,15 +11,30 @@ import {
 } from "./RoomElements";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import Icon from "../../UI/Icon";
-import { dispatchJoinRoom } from "../../../lib/SocketDispatcher";
+// import { dispatchJoinRoom } from "../../../lib/SocketDispatcher";
 import { PublicRoom } from "../../../@types/Room/Room";
-import { useApplicationState } from "../../../containers/Context";
+// import { useApplicationState } from "../../../containers/Context";
+import { useSktioStore } from "../../../store/store";
+import {
+  JOIN_ROOM_EVENT,
+  SEND_ROOM_UPDATE_EVENT,
+} from "../../../lib/socketEvents";
 
 export const Rooms = ({ socket }: { socket: Socket }) => {
-  const {
-    state: { session, shouldFetch, publicRooms, uiVariables },
-    dispatch,
-  } = useApplicationState();
+  // const {
+  //   state: { session, shouldFetch, publicRooms, uiVariables },
+  //   dispatch,
+  // } = useApplicationState();
+  //
+
+  const { roomsState, setRoomsState, UIState, sessionState, setSessionState } =
+    useSktioStore((state) => ({
+      roomsState: state.roomsState,
+      setRoomsState: state.setRoomsState,
+      UIState: state.UIState,
+      sessionState: state.sessionState,
+      setSessionState: state.setSessionState,
+    }));
 
   // Define a new state variable to keep track of the hovered room ID
   const [hoveredRoomId, setHoveredRoomId] = useState("");
@@ -28,26 +43,46 @@ export const Rooms = ({ socket }: { socket: Socket }) => {
     try {
       const response = await fetch("http://localhost:8585/api/public-rooms");
       const data = await response.json();
-      dispatch({ type: "SET_PUBLIC_ROOMS", payload: data });
+      roomsState.publicRooms = data;
+      setRoomsState(roomsState);
+
+      // zustand
+      // dispatch({ type: "SET_PUBLIC_ROOMS", payload: data });
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    if (shouldFetch === true) {
+    if (roomsState.shouldFetch === true) {
+      console.log("is fetching");
       console.count("use Aside");
       fetchData();
-      dispatch({ type: "FETCH_PUBLIC_ROOMS", payload: false });
+      roomsState.shouldFetch = false;
+      setRoomsState(roomsState);
+      // dispatch({ type: "FETCH_PUBLIC_ROOMS", payload: false });
     }
-  }, [shouldFetch]);
+  }, [roomsState.shouldFetch]);
 
-  const handleJoinRoom = (room: PublicRoom) => {
-    if (session.room !== room.id) {
-      const [dispatchJoinRoomSocket, dispatchJoinRoomAppState] =
-        dispatchJoinRoom();
-      dispatchJoinRoomSocket(socket, session, room.id);
-      dispatchJoinRoomAppState(dispatch, session, room.id);
+  const handleJoinRoom = (roomId: PublicRoom["id"]) => {
+    if (sessionState.room !== roomId) {
+      sessionState.room = roomId;
+      setSessionState(sessionState);
+      socket.emit(SEND_ROOM_UPDATE_EVENT, {
+        fromUserId: sessionState.userId,
+        fromUserColorIndex: sessionState.userColorIndex,
+        leavingRoomId: sessionState.room,
+      });
+
+      socket.emit(JOIN_ROOM_EVENT, {
+        room: roomId,
+        userId: sessionState.userId,
+        fromUserId: sessionState.userId,
+        fromUserColorIndex: sessionState.userColorIndex,
+      });
+
+      roomsState.shouldFetch = true;
+      setRoomsState(roomsState);
     }
   };
 
@@ -58,7 +93,7 @@ export const Rooms = ({ socket }: { socket: Socket }) => {
     const isHovered = hoveredRoomId === room.id; // Check if the current room ID matches the hovered room ID
     return (
       <RoomItem
-        onClick={() => handleJoinRoom(room)}
+        onClick={() => handleJoinRoom(room.id)}
         key={room.id}
         onMouseEnter={() => handleMouseEnter(room.id)}
         onMouseLeave={handleMouseLeave}
@@ -81,8 +116,11 @@ export const Rooms = ({ socket }: { socket: Socket }) => {
     );
   };
   return (
-    <RoomsContainer isSmallDevice={uiVariables.isSmallDevice}>
-      {publicRooms.map(displayPublicRooms)}
+    // <RoomsContainer isSmallDevice={uiVariables.isSmallDevice}>
+    <RoomsContainer isSmallDevice={UIState.isSmallDevice}>
+      {/* {publicRooms.map(displayPublicRooms)} */}
+      {roomsState?.publicRooms?.length > 0 &&
+        roomsState.publicRooms.map(displayPublicRooms)}
     </RoomsContainer>
   );
 };

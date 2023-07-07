@@ -1,31 +1,13 @@
 import { useState } from "react";
-import styled from "styled-components";
 import Icon from "../../UI/Icon";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import { BigText, SmallText } from "../../UI/Text";
+import {
+  FeaturesContainer,
+  FooterContainer,
+  ToggleButton,
+} from "./FooterElements";
 
-const FooterContainer = styled.footer`
-  padding: 0.5rem;
-  border-top: 1px solid white;
-  background: purple;
-  height: 100%;
-`;
-
-const ToggleButton = styled.button`
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-`;
-
-const FeaturesContainer = styled.div<{ isOpen: boolean }>`
-  position: relative;
-`;
 // height: ${({ isOpen }) => {
 //   console.log("a");
 //   return isOpen ? "25vh" : "10px !important";

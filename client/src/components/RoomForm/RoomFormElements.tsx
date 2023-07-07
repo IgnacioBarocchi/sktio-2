@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import { useApplicationState } from "../../containers/Context";
+// import { useApplicationState } from "../../containers/Context";
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -90,9 +90,9 @@ type TokenInputProps = {
 };
 
 export const TokenInput = ({ name, val, onChange }: TokenInputProps) => {
-  const {
-    state: { uiVariables },
-  } = useApplicationState();
+  // const {
+  //   state: { uiVariables },
+  // } = useApplicationState();
   const [inputValues, setInputValues] = useState<string[]>(val.split(""));
   const inputRefs = useRef<HTMLInputElement[]>([]);
 
@@ -135,7 +135,8 @@ export const TokenInput = ({ name, val, onChange }: TokenInputProps) => {
   };
 
   return (
-    <InputContainer isSmallDevice={uiVariables.isSmallDevice}>
+    // <InputContainer isSmallDevice={uiVariables.isSmallDevice}>
+    <InputContainer isSmallDevice={false}>
       {inputValues.map((inputValue, index) => (
         <TokenChunkInput
           key={index}
@@ -144,7 +145,7 @@ export const TokenInput = ({ name, val, onChange }: TokenInputProps) => {
           value={inputValue ? inputValue : undefined}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          ref={(el) => inputRefs.current.push(el!)}
+          ref={(el: HTMLInputElement) => inputRefs.current.push(el!)}
           onClick={() => inputRefs.current[index].select()}
         />
       ))}

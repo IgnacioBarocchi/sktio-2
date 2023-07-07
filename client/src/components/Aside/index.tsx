@@ -51,7 +51,7 @@ interface AsideProps {
   theme: any;
 }
 const Menu = ({ socket, setTheme, theme }: AsideProps) => {
-  const { state: uiVariables } = useApplicationState();
+  // const { state: uiVariables } = useApplicationState();
   const renderMenu = () => (
     <AsideMenu
       // isSmallDevice={uiVariables.isSmallDevice}
@@ -60,12 +60,13 @@ const Menu = ({ socket, setTheme, theme }: AsideProps) => {
       theme={theme}
     />
   );
-
-  return uiVariables.isSmallDevice ? (
-    <TopBarMenu>{renderMenu()}</TopBarMenu>
-  ) : (
-    <AsideColumn>{renderMenu()}</AsideColumn>
-  );
+  return <AsideColumn>{renderMenu()}</AsideColumn>;
+  // todo this
+  // return uiVariables.isSmallDevice ? (
+  //   <TopBarMenu>{renderMenu()}</TopBarMenu>
+  // ) : (
+  //   <AsideColumn>{renderMenu()}</AsideColumn>
+  // );
 };
 
 export default Menu;

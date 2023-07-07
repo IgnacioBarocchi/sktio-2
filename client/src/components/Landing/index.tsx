@@ -12,16 +12,20 @@ import {
   GoOnline,
   SampleConversation,
 } from "./LandingElements";
+import { useSktioStore } from "../../store/store";
 
 const LandingForm = ({ isSmallDevice }: { isSmallDevice: boolean }) => {
   const [aliasConfirmed, setAliasConfirmed] = useState<boolean>(false);
 
   const [alias, setAlias] = useState<string>("");
-
-  const {
-    state: { session },
-    dispatch,
-  } = useApplicationState();
+  const { sessionState, setSessionState } = useSktioStore((state) => ({
+    sessionState: state.sessionState,
+    setSessionState: state.setSessionState,
+  }));
+  // const {
+  //   state: { session },
+  //   dispatch,
+  // } = useApplicationState();
 
   const themeContext = useContext(ThemeContext);
 
@@ -33,7 +37,9 @@ const LandingForm = ({ isSmallDevice }: { isSmallDevice: boolean }) => {
   ) => {
     // @ts-ignore
     event.preventDefault();
-    dispatch({ type: "SET_USER_SESSION", payload: { userAlias: alias } });
+    // dispatch({ type: "SET_USER_SESSION", payload: { userAlias: alias } });
+    sessionState.userAlias = alias;
+    setSessionState(sessionState);
     setAliasConfirmed(true);
   };
 
@@ -79,7 +85,8 @@ const LandingForm = ({ isSmallDevice }: { isSmallDevice: boolean }) => {
                     Your alias is
                   </BigText>
                   <BigText
-                    color={themeContext.userColors[session.userColorIndex]}
+                    color={themeContext.userColors[sessionState.userColorIndex]}
+                    // color={themeContext.userColors[session.userColorIndex]}
                   >
                     {aliasConfirmed ? alias : ""}
                   </BigText>

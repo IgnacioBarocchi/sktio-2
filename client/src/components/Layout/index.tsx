@@ -2,14 +2,15 @@ import React, { ReactNode, RefObject } from "react";
 import { Socket } from "socket.io-client";
 // @ts-ignore
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import { useApplicationState } from "../../containers/Context";
+// import { useApplicationState } from "../../containers/Context";
 import styled from "styled-components";
-import Menu from "../Aside";
+// import Menu from "../Aside";
 import SystemMessage from "../SystemMessage";
 import Chat from "../Chat";
 import LandingForm from "../Landing";
 import AsideMenu from "../Aside/Menu";
 import UI from "../../constants/UI";
+import { useSktioStore } from "../../store/store";
 
 type LayoutProps = {
   isSmallDevice: boolean;
@@ -43,9 +44,10 @@ const Layout: React.FC<LayoutProps> = ({
   setTheme,
   theme,
 }) => {
-  const {
-    state: { session },
-  } = useApplicationState();
+  const { sessionState } = useSktioStore((state) => ({
+    sessionState: state.sessionState,
+  }));
+
   return (
     // @ts-ignore
     <LayoutContainer>
@@ -53,10 +55,10 @@ const Layout: React.FC<LayoutProps> = ({
       {!isSmallDevice && (
         <Main>
           <SystemMessage />
-          {session.room ? (
+          {sessionState.room ? (
             <Chat socket={socket} />
           ) : (
-            <LandingForm isSmallDevice={isSmallDevice} />
+            <LandingForm isSmallDevice={false} />
           )}
         </Main>
       )}
@@ -65,3 +67,11 @@ const Layout: React.FC<LayoutProps> = ({
 };
 
 export default Layout;
+// const {
+//   state: { session },
+// } = useApplicationState();
+/* {session.room ? (
+            <Chat socket={socket} />
+          ) : (
+            <LandingForm isSmallDevice={isSmallDevice} />
+          )} */

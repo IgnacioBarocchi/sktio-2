@@ -3,17 +3,31 @@ import styled from "styled-components";
 import { useApplicationState } from "../../containers/Context";
 import Icon from "../UI/Icon";
 import { MediumText } from "../UI/Text";
+import { SktioStoreState, useSktioStore } from "../../store/store";
 
 const SystemMessage = () => {
-  const { state, dispatch } = useApplicationState();
-  const [isVisible, setIsVisible] = useState(state.systemMessage.message);
+  // const { state, dispatch } = useApplicationState();
+  // const [isVisible, setIsVisible] = useState(state.systemMessage.message);
+
+  const { messagesState2, setMessagesState2 } = useSktioStore(
+    (state: SktioStoreState) => ({
+      messagesState2: state.messagesState2,
+      setMessagesState2: state.setMessagesState2,
+    })
+  );
+
+  const [isVisible, setIsVisible] = useState(
+    !!messagesState2?.system.length > 0
+  );
 
   const handleClose = () => {
     setIsVisible(false);
-    dispatch({
-      type: "SET_SYSTEM_MESSAGE",
-      payload: { type: null, message: null },
-    });
+    messagesState2.currentSystemMessage = null;
+    setMessagesState2(messagesState2);
+    // dispatch({
+    //   type: "SET_SYSTEM_MESSAGE",
+    //   payload: { type: null, message: null },
+    // });
   };
 
   if (!isVisible) {
@@ -39,10 +53,13 @@ const SystemMessage = () => {
 
   return (
     <StyledSystemMessage
-      variant={state.systemMessage.type}
+      // variant={state.systemMessage.type}
+      // variant={messagesState2.currentSystemMessage.type}
+      variant={"sucess"}
       isVisible={isVisible}
     >
-      <MediumText>{state.systemMessage.message}</MediumText>
+      {/* <MediumText>{state.systemMessage.message}</MediumText> */}
+      {/* <MediumText>{messagesState2.currentSystemMessage.message}</MediumText> */}
       <Icon onClick={handleClose} icon={"cancel"} size={"2x"} />
     </StyledSystemMessage>
   );
