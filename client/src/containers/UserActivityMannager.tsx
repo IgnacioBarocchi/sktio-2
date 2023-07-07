@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useApplicationState } from "../containers/Context";
 // @ts-ignore
 const UserActivityManager = ({ children }) => {
   const [userIsActive, setUserIsActive] = useState(true);
@@ -12,11 +11,11 @@ const UserActivityManager = ({ children }) => {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("focus", handleMouseMove);
     window.addEventListener("blur", handleBlur);
-
-    dispatch({
-      type: "SET_USER_SESSION",
-      payload: { userIsActive },
-    });
+    // todo
+    // dispatch({
+    //   type: "SET_USER_SESSION",
+    //   payload: { userIsActive },
+    // });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);

@@ -67,58 +67,6 @@ export const InputButton = styled.button`
   font-weight: 700;
   margin-right: 8px;
 `;
-/*
-export const StyledInputWithButton = ({
-  handleInputOnChange,
-  handleInputOnKeyPress,
-  handleButtonOnClick,
-  inputPlaceholder,
-  value,
-  inputRef,
-  icon = "arrow-turn-down",
-  wide = false,
-  maxTextLength = undefined,
-}: {
-  handleInputOnChange?: ChangeEventHandler<HTMLInputElement>;
-  handleButtonOnClick?: MouseEventHandler<HTMLButtonElement>;
-  handleInputOnKeyPress?: KeyboardEventHandler<HTMLInputElement>;
-  inputPlaceholder?: string;
-  value?: string;
-  inputRef?: RefObject<HTMLInputElement>;
-  icon?: FontAwesomeIconProps["icon"];
-  wide?: boolean;
-  maxTextLength?: number;
-}) => {
-  return (
-    <InputWrapper>
-      <StyledInput
-        wide={wide}
-        ref={inputRef}
-        value={value}
-        placeholder={inputPlaceholder}
-        onChange={handleInputOnChange}
-        onKeyPress={handleInputOnKeyPress}
-        maxLength={maxTextLength}
-      />
-      <InputButton onClick={handleButtonOnClick}>
-        <FontAwesomeIcon
-          icon={icon}
-          style={{
-            transform: `${
-              icon === "arrow-turn-down" ? "rotate(90deg)" : "none"
-            }`,
-          }}
-        />
-      </InputButton>
-    </InputWrapper>
-  );
-};
-*/
-interface WrappedButton {
-  icon?: FontAwesomeIconProps["icon"];
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  text?: string;
-}
 
 export const StyledInputWithButton = ({
   handleInputOnChange,
@@ -168,3 +116,9 @@ export const StyledInputWithButton = ({
     </InputWrapper>
   );
 };
+
+interface WrappedButton {
+  icon?: FontAwesomeIconProps["icon"];
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  text?: string;
+}

@@ -5,42 +5,29 @@ import LandingForm from "../../Landing";
 import Chat from "../../Chat";
 import { Nav, JoinRoom, Aside } from "./MenuElements";
 import { STab, STabList, STabPanel, STabs } from "../../UI/STabs";
-import { useApplicationState } from "../../../containers/Context";
-// import Footer from "../Footer";
-import { useState } from "react";
 import SessionForm from "../SessionForm";
 import Rooms from "../Rooms";
-import { SktioStoreState, useSktioStore } from "../../../store/store";
+import { useSktioStore } from "../../../store/store";
 
 // @ts-ignore
 const AsideMenu = ({ socket, theme, setTheme }) => {
-  // const {
-  //   state: { session, uiVariables },
-  // } = useApplicationState();
-
-  const { UIState, sessionState } = useSktioStore((state: SktioStoreState) => ({
+  const { UIState, sessionState } = useSktioStore((state) => ({
     UIState: state.UIState,
     sessionState: state.sessionState,
   }));
 
   return (
-    // <Aside isSmallDevice={uiVariables.isSmallDevice}>
-    // UIState.isSmallDevice
     <Aside isSmallDevice={false}>
       <STabs
-        // selectedIndex={tabIndex}
-        // onSelect={animateTabs}
         selectedTabClassName="is-selected"
         selectedTabPanelClassName="is-selected"
       >
-        {/* <Nav isSmallDevice={uiVariables.isSmallDevice}> */}
         <Nav isSmallDevice={false}>
           <STabList>
             <STab tabIndex="1">rooms</STab>
             <STab tabIndex="2">join</STab>
             <STab tabIndex="3">create</STab>
             <STab tabIndex="4">settings</STab>
-            {/* {uiVariables.isSmallDevice && <STab tabIndex="5">chat</STab>} */}
             {UIState.isSmallDevice && <STab tabIndex="5">chat</STab>}
           </STabList>
         </Nav>
@@ -56,57 +43,24 @@ const AsideMenu = ({ socket, theme, setTheme }) => {
         <STabPanel>
           <SessionForm theme={theme} setTheme={setTheme} />
         </STabPanel>
-        {/* {uiVariables.isSmallDevice && ( */}
         {UIState.isSmallDevice && (
           <STabPanel>
             <SystemMessage />
-            {/* {session.room ? ( */}
             {sessionState.room ? (
               <Chat socket={socket} />
             ) : (
-              // <LandingForm isSmallDevice={uiVariables.isSmallDevice} />
               <LandingForm isSmallDevice={UIState.isSmallDevice} />
             )}
           </STabPanel>
         )}
       </STabs>
-      {/* <Footer /> */}
+
+      {/*
+        // todo
+        <Footer /> 
+      */}
     </Aside>
   );
 };
 
 export default AsideMenu;
-/*
- const changeTabIndex = (
-    prevIndex: number,
-    targetIndex: number
-  ): Promise<void> => {
-    return new Promise((resolve) => {
-      setTabIndex(prevIndex);
-      setTimeout(() => {
-        setTabIndex(targetIndex);
-        console.log("done");
-        resolve();
-      }, 1000);
-    });
-  };
-
-  const onSelect = (index: number) => {
-    if (index !== tabIndex) {
-      let prevIndex = tabIndex;
-      let targetIndex = index;
-      if (prevIndex > targetIndex) {
-        [prevIndex, targetIndex] = [targetIndex, prevIndex];
-      }
-      const sequence = Array.from(
-        { length: targetIndex - prevIndex },
-        (_, i) => prevIndex + i + 1
-      );
-      const promiseSequence = sequence.reduce(
-        (acc, index) => acc.then(() => changeTabIndex(prevIndex, index)),
-        Promise.resolve()
-      );
-      promiseSequence.then(() => changeTabIndex(targetIndex, targetIndex));
-    }
-  };
-*/

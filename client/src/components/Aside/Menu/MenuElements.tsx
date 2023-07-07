@@ -5,10 +5,6 @@ import { StyledInputWithButton } from "../../UI/Input";
 import styled from "styled-components";
 import UI from "../../../constants/UI";
 import { useSktioStore } from "../../../store/store";
-import {
-  JOIN_ROOM_EVENT,
-  SEND_ROOM_UPDATE_EVENT,
-} from "../../../lib/socketEvents";
 import switchRoom from "../../../lib/switchRoom";
 
 export const Nav = styled(StyledBackground).attrs(
@@ -88,40 +84,6 @@ export const JoinRoom = ({ socket }: { socket: Socket }) => {
       roomsState,
       setRoomsState,
     });
-    // if (roomId !== "") {
-    //   sessionState.room = roomId;
-    //   setSessionState(sessionState);
-    //   socket.emit(SEND_ROOM_UPDATE_EVENT, {
-    //     fromUserId: sessionState.userId,
-    //     fromUserColorIndex: sessionState.userColorIndex,
-    //     leavingRoomId: sessionState.room,
-    //   });
-
-    //   if (sessionState?.room) {
-    //     socket.emit(SEND_ROOM_UPDATE_EVENT, {
-    //       fromUserId: sessionState.userId,
-    //       fromUserColorIndex: sessionState.userColorIndex,
-    //       leavingRoomId: sessionState.room,
-    //     });
-    //   }
-    //   // !clean history
-
-    //   setMessagesState({
-    //     sent: [],
-    //     recieved: [],
-    //     system: [],
-    //   });
-
-    //   socket.emit(JOIN_ROOM_EVENT, {
-    //     room: roomId,
-    //     userId: sessionState.userId,
-    //     fromUserId: sessionState.userId,
-    //     fromUserColorIndex: sessionState.userColorIndex,
-    //   });
-
-    //   roomsState.shouldFetch = true;
-    //   setRoomsState(roomsState);
-    // }
   };
 
   return (
@@ -141,37 +103,3 @@ export const JoinRoom = ({ socket }: { socket: Socket }) => {
     </div>
   );
 };
-
-// dispatch({
-//   type: "SET_USER_SESSION",
-//   // @ts-ignore
-//   payload: { room },
-// });
-
-// dispatch({
-//   type: "UPDATE_MESSAGING_DATA_STATE",
-//   payload: {
-//     system: {
-//       fromSystem: true,
-//       fromUserId: session.userId,
-//       fromUserColor: session.userColor,
-//       // @ts-ignore
-//       text: system.Label.JOINED_THE_ROOM as SystemMessageType,
-//     },
-//   },
-// });
-
-// dispatch({
-//   type: "CLEAN_HISTORY_STATE",
-//   payload: { room },
-// });
-
-// dispatch({
-//   type: "FETCH_PUBLIC_ROOMS",
-//   payload: true,
-// });
-
-// const [dispatchJoinRoomSocket, dispatchJoinRoomAppState] =
-//   dispatchJoinRoom();
-// dispatchJoinRoomSocket(socket, session, room);
-// dispatchJoinRoomAppState(dispatch, session, room);

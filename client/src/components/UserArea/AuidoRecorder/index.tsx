@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useApplicationState } from "../../../containers/Context";
 import { SEND_MESSAGE_EVENT } from "../../../lib/socketEvents";
 
-import { MediaType } from "../../../@types/Message/Message";
 import { Socket } from "socket.io-client";
 import Icon from "../../UI/Icon";
 import SoundVisualizer from "./AudiRecorderElements";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import { useSktioStore } from "../../../store/store";
+import { MediaType } from "../../../@types/WebSocketPayloads";
 
 const AudioRecorder = ({ socket }: { socket: Socket }) => {
   // const {
@@ -53,17 +53,6 @@ const AudioRecorder = ({ socket }: { socket: Socket }) => {
           userColorIndex: sessionState.userColorIndex,
           userAlias: sessionState.userAlias,
         });
-
-        // dispatch({
-        //   type: "UPDATE_MESSAGING_DATA_STATE",
-        //   payload: {
-        //     sent: {
-        //       text: "",
-        //       media,
-        //       isSent: true,
-        //     },
-        //   },
-        // });
       }
     };
   };

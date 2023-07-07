@@ -4,9 +4,7 @@ import { Socket } from "socket.io";
 // @ts-ignore
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import io from "socket.io-client";
-import { WebSocketManagerProps } from "../../@types/WebSocketManager/WebSocketManager";
 import System from "../../constants/System";
-import { useApplicationState } from "../../containers/Context";
 import { getSocketEventHandlers } from "./helper";
 import { useSktioStore } from "../../store/store";
 // @ts-ignore
@@ -72,3 +70,7 @@ const WebSocketManager: FC<WebSocketManagerProps> = ({
 };
 
 export default WebSocketManager;
+
+interface WebSocketManagerProps {
+  children(socket?: Socket): React.ReactNode | JSX.Element;
+}

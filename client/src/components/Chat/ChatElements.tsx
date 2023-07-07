@@ -36,11 +36,6 @@ const ObservedContainer = styled.div`
   // background-color: yellow;
 `;
 
-interface ObservedToScrollContainerProps {
-  scrollRef: RefObject<HTMLDivElement>;
-  observe: (element: any) => void | boolean | RefObject<HTMLDivElement>;
-  children: ReactNode;
-}
 export const ObservedToScrollContainer = ({
   scrollRef,
   observe,
@@ -61,48 +56,16 @@ const SeparatorContainter = styled.div`
   margin: 0 auto;
 `;
 
-const Hr = styled.hr<{ color: string }>`
-  width: 50%;
-  border: 0.2px solid ${({ color }) => color};
-  opacity: 0.5;
-`;
-
 export const UserNameSeparator = ({ color }: { color: string }) => {
   return (
     <SeparatorContainter>
-      {/* <Hr color={color} /> */}
       <SmallText color={color}>user</SmallText>
-      {/* <Hr color={color} /> */}
     </SeparatorContainter>
   );
 };
 
-// export const UserArea = styled.div`
-//   position: relative;
-//   grid-area: user-area;
-//   width: 50%;
-//   padding-right: 0.5rem;
-//   display: flex;
-//   justify-content: space-evenly;
-//   align-items: center;
-// `;
-
-// export const EmojiButtom = styled.button`
-//   font-size: 45px;
-//   background: transparent;
-//   color: ${({ theme }) => theme.color.primary};
-//   border: none;
-//   outline: none;
-//   cursor: pointer;
-// `;
-
-// export const emojiRegexExp =
-//   /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/gi;
-
-// EmojiStyle,
-// SkinTones,
-// Theme,
-// Categories,
-// Emoji,
-// SuggestionMode,
-// SkinTonePickerLocation,
+interface ObservedToScrollContainerProps {
+  scrollRef: RefObject<HTMLDivElement>;
+  observe: (element: any) => void | boolean | RefObject<HTMLDivElement>;
+  children: ReactNode;
+}

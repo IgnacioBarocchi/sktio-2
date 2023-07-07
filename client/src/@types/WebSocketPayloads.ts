@@ -1,6 +1,10 @@
-import { SystemMessageType } from "../../constants/System";
+import { SystemMessageType } from "../constants/System";
 
-type MediaType = { type: "image" | "audio"; src: string; localURL?: string };
+export type MediaType = {
+  type: "image" | "audio";
+  src: string;
+  localURL?: string;
+};
 
 export interface MessageOPTProps {
   color?: string;
@@ -43,4 +47,19 @@ export interface MessagingDataPayload {
   system?: SystemMessagePayload;
   recieved?: RecievedMessagePayload;
   sent?: SentMessagePayload;
+}
+export interface ReceiveMessagePayload {
+  read: boolean;
+  message: string;
+  userId: string;
+  userColor: string;
+  userAlias: string;
+  media?: MediaType;
+  userColorIndex?: number;
+}
+
+export interface RoomUpdatePayload {
+  fromUserId: string;
+  fromUserColor: string;
+  fromUserColorIndex?: number;
 }

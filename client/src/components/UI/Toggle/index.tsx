@@ -2,13 +2,6 @@ import React, { useState } from "react";
 import { FlexBoxWithSpacing } from "../Spacing";
 import { MediumText } from "../Text";
 import { Input, Label, Slider } from "./ToggleElements";
-interface ToggleProps {
-  label: string;
-  defaultChecked?: boolean;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
-  gap?: number | string;
-}
 
 const Toggle: React.FC<ToggleProps> = ({
   label,
@@ -44,3 +37,11 @@ const Toggle: React.FC<ToggleProps> = ({
 };
 
 export default Toggle;
+
+interface ToggleProps {
+  label: string;
+  defaultChecked?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  gap?: number | string;
+}

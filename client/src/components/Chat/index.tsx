@@ -6,7 +6,6 @@ import useOnScreen from "../../containers/useOnScreen";
 import Message from "../Message";
 import { getMessageMetadata } from "./MessagesHelper";
 import UserArea from "../UserArea";
-import { MessageOPTProps } from "../../@types/Message/Message";
 import { ThemeContext } from "styled-components";
 import { useSktioStore } from "../../store/store";
 
@@ -22,10 +21,6 @@ interface Message extends MessageOPTProps {
 const Chat = ({ socket }: { socket: Socket }) => {
   const themeContext = useContext(ThemeContext);
 
-  // const {
-  //   state: { session, settings, messages, uiVariables },
-  // } = useApplicationState();
-
   const { sessionState, userSettingsState, messagesState } = useSktioStore(
     (state) => ({
       sessionState: state.sessionState,
@@ -35,7 +30,6 @@ const Chat = ({ socket }: { socket: Socket }) => {
   );
 
   console.log(messagesState);
-  // const messages =[...messagesState]
 
   const scrollRef = useRef(null);
 
@@ -59,9 +53,7 @@ const Chat = ({ socket }: { socket: Socket }) => {
     const { username, color } = getMessageMetadata(
       singleMessage,
       i,
-      // [],
       messages,
-      // session,
       sessionState,
       themeContext
     );
@@ -92,15 +84,12 @@ const Chat = ({ socket }: { socket: Socket }) => {
 
   return (
     <>
-      {/* <Messages isSmallDevice={uiVariables.isSmallDevice}> */}
       <Messages isSmallDevice={false}>
-        {/* {settings.useHistory && messages && messages.map(mapMessages)} */}
         {userSettingsState.useHistory &&
           messagesState &&
           [].concat(...Object.values(messagesState)).map(mapMessages)}
       </Messages>
       {sessionState.room && <UserArea socket={socket} />}
-      {/* {session.room && <UserArea socket={socket} />} */}
     </>
   );
 };

@@ -1,9 +1,3 @@
-import { Dispatch } from "../../../@types/ApplicationStated";
-import {
-  RecievedMessagePayload,
-  SystemMessagePayload,
-} from "../../../@types/Message/Message";
-import { PublicRoom } from "../../../@types/Room/Room";
 import {
   RECEIVE_JOINING_EVENT,
   RECEIVE_MESSAGE_EVENT,
@@ -12,9 +6,13 @@ import {
   // SHOULD_FETCH_PUBLIC_ROOMS,
 } from "../../../lib/socketEvents";
 import System, { SystemMessageType } from "../../../constants/System";
-import { ReceiveMessagePayload } from "../../../@types/WebSocketManager/WebSocketManager";
-import { RoomsState } from "../../../@types/Room";
+import { PublicRoom, RoomsState } from "../../../@types/Room";
 import { MessagesState } from "../../../@types/Message";
+import {
+  ReceiveMessagePayload,
+  RecievedMessagePayload,
+  SystemMessagePayload,
+} from "../../../@types/WebSocketPayloads";
 
 const system = System.getInstance();
 export const getSocketEventHandlers = (

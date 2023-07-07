@@ -1,4 +1,4 @@
-import { MediaType } from "./Message/Message";
+import { MediaType } from "./WebSocketPayloads";
 
 interface TextMessage {
   read?: boolean;

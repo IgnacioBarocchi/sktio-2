@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject } from "react";
+import React, { FC, ReactNode, RefObject } from "react";
 import { Socket } from "socket.io-client";
 // @ts-ignore
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
@@ -11,15 +11,6 @@ import LandingForm from "../Landing";
 import AsideMenu from "../Aside/Menu";
 import UI from "../../constants/UI";
 import { useSktioStore } from "../../store/store";
-
-type LayoutProps = {
-  isSmallDevice: boolean;
-  children?: ReactNode;
-  socket: Socket | Socket<DefaultEventsMap, DefaultEventsMap>;
-  theme: "light" | "dark";
-  setTheme: React.Dispatch<React.SetStateAction<"dark" | "light">>;
-  messengerAreaRef: RefObject<HTMLDivElement>;
-};
 
 const LayoutContainer = styled.div<LayoutProps>`
   display: flex;
@@ -38,7 +29,7 @@ const Main = styled.main`
   left: ${UI.dimensions.map.get("desktop-aside")}px;
 `;
 
-const Layout: React.FC<LayoutProps> = ({
+const Layout: FC<LayoutProps> = ({
   isSmallDevice,
   socket,
   setTheme,
@@ -67,11 +58,12 @@ const Layout: React.FC<LayoutProps> = ({
 };
 
 export default Layout;
-// const {
-//   state: { session },
-// } = useApplicationState();
-/* {session.room ? (
-            <Chat socket={socket} />
-          ) : (
-            <LandingForm isSmallDevice={isSmallDevice} />
-          )} */
+
+interface LayoutProps {
+  isSmallDevice: boolean;
+  children?: ReactNode;
+  socket: Socket | Socket<DefaultEventsMap, DefaultEventsMap>;
+  theme: "light" | "dark";
+  setTheme: React.Dispatch<React.SetStateAction<"dark" | "light">>;
+  messengerAreaRef: RefObject<HTMLDivElement>;
+}

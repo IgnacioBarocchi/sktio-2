@@ -1,7 +1,6 @@
 import { Socket } from "socket.io-client";
 import { MessagesState } from "../@types/Message";
-import { RoomsState } from "../@types/Room";
-import { PrivateRoom, PublicRoom } from "../@types/Room/Room";
+import { PrivateRoom, PublicRoom, RoomsState } from "../@types/Room";
 import { SessionState } from "../@types/Session";
 import { JOIN_ROOM_EVENT, SEND_ROOM_UPDATE_EVENT } from "./socketEvents";
 

@@ -11,22 +11,15 @@ import {
 } from "./RoomElements";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import Icon from "../../UI/Icon";
-import { PublicRoom } from "../../../@types/Room/Room";
-// import { useApplicationState } from "../../../containers/Context";
 import { useSktioStore } from "../../../store/store";
 import {
   JOIN_ROOM_EVENT,
   SEND_ROOM_UPDATE_EVENT,
 } from "../../../lib/socketEvents";
 import switchRoom from "../../../lib/switchRoom";
+import { PublicRoom } from "../../../@types/Room";
 
 export const Rooms = ({ socket }: { socket: Socket }) => {
-  // const {
-  //   state: { session, shouldFetch, publicRooms, uiVariables },
-  //   dispatch,
-  // } = useApplicationState();
-  //
-
   const {
     roomsState,
     setRoomsState,

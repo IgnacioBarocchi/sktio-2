@@ -47,16 +47,3 @@ export const STabPanel = styled(TabPanel).attrs({ tabsrole: "TabPanel" })`
     display: block;
   }
 `;
-
-// import React, { Component } from "react";
-// const asTab = (Wrapped: JSX.IntrinsicAttributes) => {
-//   class Wrapper extends Component {
-//     static displayName: string;
-//     render() {
-//       return <Wrapped {...this.props} />;
-//     }
-//   }
-//   Wrapper.displayName = `Tab(${Wrapped.displayName})`;
-
-//   return Wrapper;
-// };
