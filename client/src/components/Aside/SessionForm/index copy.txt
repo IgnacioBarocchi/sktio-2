@@ -13,20 +13,15 @@ import Icon from "../../UI/Icon";
 import { BigText } from "../../UI/Text";
 import { UserCircle } from "../../Message/MessageElements";
 import { checkboxData } from "./checkboxData";
-import { useSktioStore } from "../../../store/store";
 
 // @ts-ignore
 const SessionForm = ({ theme, setTheme }) => {
+  // const {
+  //   state: { session, settings },
+  //   dispatch,
+  // } = useApplicationState();
   const [showSettings, setShowSettings] = useState(true);
   const [selectedCheckboxIndex, setSelectedCheckboxIndex] = useState(-1);
-
-  const { sessionState, setSessionState, userSettingsState } = useSktioStore(
-    (state) => ({
-      sessionState: state.sessionState,
-      setSessionState: state.setSessionState,
-      userSettingsState: state.userSettingsState,
-    })
-  );
 
   const dispatchUpdate = (value: {
     useHistory?: boolean;
@@ -35,8 +30,7 @@ const SessionForm = ({ theme, setTheme }) => {
     aceptMedia?: boolean;
     aceptLinks?: boolean;
   }) => {
-    setSessionState({ ...sessionState, ...value });
-    // dispatch({ type: "UPDATE_SETTINGS_STATE", payload: value });
+    dispatch({ type: "UPDATE_SETTINGS_STATE", payload: value });
   };
 
   const themeContext = useContext(ThemeContext);
@@ -81,9 +75,9 @@ const SessionForm = ({ theme, setTheme }) => {
         ) : (
           <FlexBoxWithSpacing gap={8}>
             <BigText weight="bold">User ID:</BigText>
-            <BigText weight="bolder">{sessionState.userId}</BigText>
+            <BigText weight="bolder">{session.userId}</BigText>
             <UserCircle
-              color={themeContext.userColors[sessionState.userColorIndex]}
+              color={themeContext.userColors[session.userColorIndex]}
             />
           </FlexBoxWithSpacing>
         )}
@@ -93,14 +87,14 @@ const SessionForm = ({ theme, setTheme }) => {
           {selectedCheckboxIndex === index ? (
             <Setting
               theme={theme}
-              settings={userSettingsState}
+              settings={settings}
               checkbox={checkbox}
               handleCheck={handleCheck}
             />
           ) : (
             <Option
               showSettings={showSettings}
-              settings={userSettingsState}
+              settings={settings}
               index={index}
               setSelectedCheckboxIndex={setSelectedCheckboxIndex}
               setShowSettings={setShowSettings}

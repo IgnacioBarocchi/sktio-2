@@ -1,8 +1,7 @@
-// @ts-ignore
-import GlobalStyle from "../../containers/GlobalStyle/GlobalStyle";
 import { Socket } from "socket.io-client";
 import { useState } from "react";
 import { ThemeProvider } from "styled-components";
+import GlobalStyle from "../../containers/GlobalStyle/GlobalStyle";
 import useIcons from "../../assets/icons";
 import AppHelmet from "../../containers/AppHelmet";
 import Layout from "../Layout";

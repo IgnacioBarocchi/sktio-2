@@ -13,6 +13,7 @@ import {
   SampleConversation,
 } from "./LandingElements";
 import { useSktioStore } from "../../store/store";
+import BubblesScene from "../UI/BubblesScene";
 
 const LandingForm = ({ isSmallDevice }: { isSmallDevice: boolean }) => {
   const [aliasConfirmed, setAliasConfirmed] = useState<boolean>(false);
@@ -50,7 +51,8 @@ const LandingForm = ({ isSmallDevice }: { isSmallDevice: boolean }) => {
 
   return (
     <Content isSmallDevice={isSmallDevice}>
-      <div
+      <BubblesScene />
+      {/* <div
         style={{
           width: "50%",
           display: "flex",
@@ -138,16 +140,18 @@ const LandingForm = ({ isSmallDevice }: { isSmallDevice: boolean }) => {
             </>
           }
         ></Card>
-      </div>
-      <div style={{ width: "50%" }}>
-        <div>
-          <GoOnline />
-        </div>
-        <div>
-          <DeployYourOwn />
-        </div>
-      </div>
+      </div> */}
     </Content>
   );
 };
 export default LandingForm;
+{
+  /* <div style={{ width: "50%" }}>
+<div>
+  <GoOnline />
+</div>
+<div>
+  <DeployYourOwn />
+</div>
+</div> */
+}
