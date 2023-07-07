@@ -88,6 +88,14 @@ export const JoinRoom = ({ socket }: { socket: Socket }) => {
         fromUserColorIndex: sessionState.userColorIndex,
         leavingRoomId: sessionState.room,
       });
+
+      if (sessionState?.room) {
+        socket.emit(SEND_ROOM_UPDATE_EVENT, {
+          fromUserId: sessionState.userId,
+          fromUserColorIndex: sessionState.userColorIndex,
+          leavingRoomId: sessionState.room,
+        });
+      }
       // !clean history
 
       setMessagesState2({

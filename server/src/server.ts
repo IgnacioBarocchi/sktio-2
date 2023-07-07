@@ -118,13 +118,17 @@ function handleConnection(socket: {
   on: (arg0: string, arg1: () => void) => void;
 }) {
   console.info(`
-    💻 User Connected: ${socket.id}
-    💻 New connection from  ${JSON.stringify(socket.handshake.address, null, 2)}
+    💻✔️ User Connected: ${socket.id}
+    💻✔️ New connection from  ${JSON.stringify(
+      socket.handshake.address,
+      null,
+      2
+    )}
   `);
 
   socket.on("disconnect", () => {
     console.info(`
-      💻 User Disconnected: ${socket.id}
+      💻❌ User Disconnected: ${socket.id}
     `);
   });
 

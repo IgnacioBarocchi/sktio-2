@@ -38,8 +38,8 @@ export const getRooms = (
     .replace("helper/", "");
 
   let rooms: Room[] = JSON.parse(fs.readFileSync(filePath, "utf8"));
-  const s = shoulUpdateCount(currentRoom, rooms);
-  console.log(s);
+  // const s = shoulUpdateCount(currentRoom, rooms);
+  // console.log(s);
   // rooms = s ? getUpatedUserCountRooms(io, rooms) : rooms;
   rooms = getUpatedUserCountRooms(io, rooms);
 
