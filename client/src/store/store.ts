@@ -1,45 +1,21 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
-import { RoomsState } from "../@types/Room";
-import { UIState } from "../@types/UI";
-import { UserSettingsState } from "../@types/Setting";
-import { SessionState } from "../@types/Session";
-import { Message, MessagesState } from "../@types/Message";
-
-export type SktioStoreState = {
-  messagesState: Message[];
-  setMessagesState: (messagesState: Message[]) => void;
-
-  messagesState2: MessagesState;
-  setMessagesState2: (messagesState: MessagesState) => void;
-
-  roomsState: RoomsState;
-  setRoomsState: (roomsState: RoomsState) => void;
-
-  userSettingsState: UserSettingsState;
-  setUserSettingsState: (userSettingsState: UserSettingsState) => void;
-
-  sessionState: SessionState;
-  setSessionState: (sessionState: SessionState) => void;
-
-  UIState: UIState;
-  setUIState: (UIState: UIState) => void;
-};
+import type { RoomsState } from "../@types/Room";
+import type { UIState } from "../@types/UI";
+import type { UserSettingsState } from "../@types/Setting";
+import type { SessionState } from "../@types/Session";
+import type { MessagesState } from "../@types/Message";
+import type { SktioStoreState } from "../@types/Store";
 
 export const useSktioStore = create<SktioStoreState>()(
   subscribeWithSelector((set) => ({
-    messagesState: [],
-    setMessagesState: (messagesState: Message[]): void => {
-      set({ messagesState });
-    },
-
-    messagesState2: {
+    messagesState: {
       sent: [],
       recieved: [],
       system: [],
     },
-    setMessagesState2: (messagesState2: MessagesState): void => {
-      set({ messagesState2 });
+    setMessagesState: (messagesState: MessagesState): void => {
+      set({ messagesState });
     },
 
     roomsState: {

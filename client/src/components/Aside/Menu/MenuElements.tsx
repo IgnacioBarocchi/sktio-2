@@ -9,6 +9,7 @@ import {
   JOIN_ROOM_EVENT,
   SEND_ROOM_UPDATE_EVENT,
 } from "../../../lib/socketEvents";
+import switchRoom from "../../../lib/switchRoom";
 
 export const Nav = styled(StyledBackground).attrs(
   (props: { isSmallDevice: boolean }) => ({
@@ -68,52 +69,59 @@ export const JoinRoom = ({ socket }: { socket: Socket }) => {
     setSessionState,
     roomsState,
     setRoomsState,
-    setMessagesState2,
+    setMessagesState,
   } = useSktioStore((state) => ({
     sessionState: state.sessionState,
     setSessionState: state.setSessionState,
     roomsState: state.roomsState,
     setRoomsState: state.setRoomsState,
-    setMessagesState2: state.setMessagesState2,
+    setMessagesState: state.setMessagesState,
   }));
 
   const [roomId, setRoomId] = useState<string>("");
 
   const joinRoom = () => {
-    if (roomId !== "") {
-      sessionState.room = roomId;
-      setSessionState(sessionState);
-      socket.emit(SEND_ROOM_UPDATE_EVENT, {
-        fromUserId: sessionState.userId,
-        fromUserColorIndex: sessionState.userColorIndex,
-        leavingRoomId: sessionState.room,
-      });
+    switchRoom(socket, roomId, {
+      sessionState,
+      setSessionState,
+      setMessagesState,
+      roomsState,
+      setRoomsState,
+    });
+    // if (roomId !== "") {
+    //   sessionState.room = roomId;
+    //   setSessionState(sessionState);
+    //   socket.emit(SEND_ROOM_UPDATE_EVENT, {
+    //     fromUserId: sessionState.userId,
+    //     fromUserColorIndex: sessionState.userColorIndex,
+    //     leavingRoomId: sessionState.room,
+    //   });
 
-      if (sessionState?.room) {
-        socket.emit(SEND_ROOM_UPDATE_EVENT, {
-          fromUserId: sessionState.userId,
-          fromUserColorIndex: sessionState.userColorIndex,
-          leavingRoomId: sessionState.room,
-        });
-      }
-      // !clean history
+    //   if (sessionState?.room) {
+    //     socket.emit(SEND_ROOM_UPDATE_EVENT, {
+    //       fromUserId: sessionState.userId,
+    //       fromUserColorIndex: sessionState.userColorIndex,
+    //       leavingRoomId: sessionState.room,
+    //     });
+    //   }
+    //   // !clean history
 
-      setMessagesState2({
-        sent: [],
-        recieved: [],
-        system: [],
-      });
+    //   setMessagesState({
+    //     sent: [],
+    //     recieved: [],
+    //     system: [],
+    //   });
 
-      socket.emit(JOIN_ROOM_EVENT, {
-        room: roomId,
-        userId: sessionState.userId,
-        fromUserId: sessionState.userId,
-        fromUserColorIndex: sessionState.userColorIndex,
-      });
+    //   socket.emit(JOIN_ROOM_EVENT, {
+    //     room: roomId,
+    //     userId: sessionState.userId,
+    //     fromUserId: sessionState.userId,
+    //     fromUserColorIndex: sessionState.userColorIndex,
+    //   });
 
-      roomsState.shouldFetch = true;
-      setRoomsState(roomsState);
-    }
+    //   roomsState.shouldFetch = true;
+    //   setRoomsState(roomsState);
+    // }
   };
 
   return (

@@ -24,10 +24,10 @@ const socket: Socket<
 const WebSocketManager: FC<WebSocketManagerProps> = ({
   children,
 }): JSX.Element => {
-  const { messagesState2, setMessagesState2, roomsState, setRoomsState } =
+  const { messagesState, setMessagesState, roomsState, setRoomsState } =
     useSktioStore((state) => ({
-      messagesState2: state.messagesState2,
-      setMessagesState2: state.setMessagesState2,
+      messagesState: state.messagesState,
+      setMessagesState: state.setMessagesState,
       roomsState: state.roomsState,
       setRoomsState: state.setRoomsState,
     }));
@@ -45,8 +45,8 @@ const WebSocketManager: FC<WebSocketManagerProps> = ({
   useEffect(() => {
     console.log(`Connect`);
     const socketEventHandlers = getSocketEventHandlers(
-      messagesState2,
-      setMessagesState2,
+      messagesState,
+      setMessagesState,
       roomsState,
       setRoomsState
     );

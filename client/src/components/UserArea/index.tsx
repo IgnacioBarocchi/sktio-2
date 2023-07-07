@@ -16,13 +16,13 @@ import { useSktioStore } from "../../store/store";
 const UserArea = ({ socket }) => {
   const [message, setMessage] = useState("");
 
-  const { messagesState2, setMessagesState2, userSettingsState, sessionState } =
+  const { messagesState, setMessagesState, userSettingsState, sessionState } =
     useSktioStore((state) => ({
       userSettingsState: state.userSettingsState,
       UIState: state.UIState,
       sessionState: state.sessionState,
-      messagesState2: state.messagesState2,
-      setMessagesState2: state.setMessagesState2,
+      messagesState: state.messagesState,
+      setMessagesState: state.setMessagesState,
     }));
 
   const sendMessage = () => {
@@ -37,8 +37,8 @@ const UserArea = ({ socket }) => {
 
     // UPDATE_MESSAGING_DATA_STATE
     const payload = { text: message, isSent: true };
-    messagesState2.sent.push(payload);
-    setMessagesState2(messagesState2);
+    messagesState.sent.push(payload);
+    setMessagesState(messagesState);
 
     // @ts-ignore
     inputRef.current.value = "";

@@ -18,8 +18,8 @@ import { MessagesState } from "../../../@types/Message";
 
 const system = System.getInstance();
 export const getSocketEventHandlers = (
-  messagesState2: MessagesState,
-  setMessagesState2: (value: MessagesState) => void,
+  messagesState: MessagesState,
+  setMessagesState: (value: MessagesState) => void,
   roomsState: RoomsState,
   setRoomsState: (value: RoomsState) => void
 ) => {
@@ -36,8 +36,8 @@ export const getSocketEventHandlers = (
       fromUserAlias: data.userAlias,
     };
 
-    messagesState2.recieved.push(recievedPayload);
-    setMessagesState2(messagesState2);
+    messagesState.recieved.push(recievedPayload);
+    setMessagesState(messagesState);
   };
 
   const dispatchRoomUpdateData = (
@@ -54,9 +54,9 @@ export const getSocketEventHandlers = (
       text,
       isSent: false,
     };
-    messagesState2.system.push(systemPayload);
-    setMessagesState2(messagesState2);
-    // messagesState2.system.push(systemPayload);
+    messagesState.system.push(systemPayload);
+    setMessagesState(messagesState);
+    // messagesState.system.push(systemPayload);
     // dispatch({
     //   type: "UPDATE_MESSAGING_DATA_STATE",
     //   payload: {

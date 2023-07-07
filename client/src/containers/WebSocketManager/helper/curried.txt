@@ -19,7 +19,7 @@ import { MessagesState } from "../../../@types/Message";
 const system = System.getInstance();
 
 const getDispatchNewMessageData =
-  (data: ReceiveMessagePayload, messagesState2, setMessagesState2) => () => {
+  (data: ReceiveMessagePayload, messagesState, setMessagesState) => () => {
     console.log("ReceiveMessage");
     const recievedPayload: RecievedMessagePayload = {
       read: false,
@@ -31,17 +31,17 @@ const getDispatchNewMessageData =
       fromUserAlias: data.userAlias,
     };
 
-    // messagesState2.recieved.push(recievedPayload);
-    messagesState2.recieved.push(recievedPayload);
-    setMessagesState2(messagesState2);
+    // messagesState.recieved.push(recievedPayload);
+    messagesState.recieved.push(recievedPayload);
+    setMessagesState(messagesState);
   };
 
 const getDispatchRoomUpdateData =
   (
     data: SystemMessagePayload,
     text: SystemMessageType,
-    messagesState2,
-    setMessagesState2
+    messagesState,
+    setMessagesState
   ) =>
   () => {
     console.log("update room");
@@ -53,9 +53,9 @@ const getDispatchRoomUpdateData =
       fromUserColorIndex: data.fromUserColorIndex,
       text,
     };
-    messagesState2.system.push(systemPayload);
-    setMessagesState2(messagesState2);
-    // messagesState2.system.push(systemPayload);
+    messagesState.system.push(systemPayload);
+    setMessagesState(messagesState);
+    // messagesState.system.push(systemPayload);
     // dispatch({
     //   type: "UPDATE_MESSAGING_DATA_STATE",
     //   payload: {
@@ -65,22 +65,22 @@ const getDispatchRoomUpdateData =
   };
 
 export const getSocketEventHandlers = (
-  messagesState2: MessagesState,
-  setMessagesState2: (value: MessagesState) => void,
+  messagesState: MessagesState,
+  setMessagesState: (value: MessagesState) => void,
   roomsState: RoomsState,
   setRoomsState: (value: RoomsState) => void
 ) => {
   console.log("getSocketEventHandlers");
   const dispatchNewMessageData = getDispatchNewMessageData(
     data,
-    messagesState2,
-    setMessagesState2
+    messagesState,
+    setMessagesState
   );
   const dispatchRoomUpdateData = dispatchRoomUpdateData(
     data
     text,
-    messagesState2,
-    setMessagesState2,
+    messagesState,
+    setMessagesState,
   );
 
   const socketEventHandlers = [

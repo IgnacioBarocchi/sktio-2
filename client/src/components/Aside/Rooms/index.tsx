@@ -11,7 +11,6 @@ import {
 } from "./RoomElements";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import Icon from "../../UI/Icon";
-// import { dispatchJoinRoom } from "../../../lib/SocketDispatcher";
 import { PublicRoom } from "../../../@types/Room/Room";
 // import { useApplicationState } from "../../../containers/Context";
 import { useSktioStore } from "../../../store/store";
@@ -19,6 +18,7 @@ import {
   JOIN_ROOM_EVENT,
   SEND_ROOM_UPDATE_EVENT,
 } from "../../../lib/socketEvents";
+import switchRoom from "../../../lib/switchRoom";
 
 export const Rooms = ({ socket }: { socket: Socket }) => {
   // const {
@@ -33,14 +33,14 @@ export const Rooms = ({ socket }: { socket: Socket }) => {
     UIState,
     sessionState,
     setSessionState,
-    setMessagesState2,
+    setMessagesState,
   } = useSktioStore((state) => ({
     roomsState: state.roomsState,
     setRoomsState: state.setRoomsState,
     UIState: state.UIState,
     sessionState: state.sessionState,
     setSessionState: state.setSessionState,
-    setMessagesState2: state.setMessagesState2,
+    setMessagesState: state.setMessagesState,
   }));
 
   // Define a new state variable to keep track of the hovered room ID
@@ -72,35 +72,42 @@ export const Rooms = ({ socket }: { socket: Socket }) => {
   }, [roomsState.shouldFetch]);
 
   const handleJoinRoom = (roomId: PublicRoom["id"]) => {
-    if (sessionState.room !== roomId) {
-      sessionState.room = roomId;
-      setSessionState(sessionState);
+    switchRoom(socket, roomId, {
+      sessionState,
+      setSessionState,
+      setMessagesState,
+      roomsState,
+      setRoomsState,
+    });
+    // if (sessionState.room !== roomId) {
+    //   sessionState.room = roomId;
+    //   setSessionState(sessionState);
 
-      if (sessionState?.room) {
-        socket.emit(SEND_ROOM_UPDATE_EVENT, {
-          fromUserId: sessionState.userId,
-          fromUserColorIndex: sessionState.userColorIndex,
-          leavingRoomId: sessionState.room,
-        });
-      }
-      // !clean history
+    //   if (sessionState?.room) {
+    //     socket.emit(SEND_ROOM_UPDATE_EVENT, {
+    //       fromUserId: sessionState.userId,
+    //       fromUserColorIndex: sessionState.userColorIndex,
+    //       leavingRoomId: sessionState.room,
+    //     });
+    //   }
+    //   // !clean history
 
-      setMessagesState2({
-        sent: [],
-        recieved: [],
-        system: [],
-      });
+    //   setMessagesState({
+    //     sent: [],
+    //     recieved: [],
+    //     system: [],
+    //   });
 
-      socket.emit(JOIN_ROOM_EVENT, {
-        room: roomId,
-        userId: sessionState.userId,
-        fromUserId: sessionState.userId,
-        fromUserColorIndex: sessionState.userColorIndex,
-      });
+    //   socket.emit(JOIN_ROOM_EVENT, {
+    //     room: roomId,
+    //     userId: sessionState.userId,
+    //     fromUserId: sessionState.userId,
+    //     fromUserColorIndex: sessionState.userColorIndex,
+    //   });
 
-      roomsState.shouldFetch = true;
-      setRoomsState(roomsState);
-    }
+    //   roomsState.shouldFetch = true;
+    //   setRoomsState(roomsState);
+    // }
   };
 
   const handleMouseEnter = (roomId: string) => setHoveredRoomId(roomId);
