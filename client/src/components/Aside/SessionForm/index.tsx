@@ -1,22 +1,32 @@
-import { useContext } from "react";
-import { ThemeContext } from "styled-components";
-import Icon from "../../UI/Icon";
-import { FlexBoxWithSpacing } from "../../UI/Spacing";
-import { BigText } from "../../UI/Text";
-import { UserCircle } from "../../Message/MessageElements";
-import { checkboxData } from "./checkboxData";
+import { FC } from "react";
+import { CheckboxRecord, checkboxData } from "./checkboxData";
 import { useSktioStore } from "../../../store/store";
 import { signal } from "@preact/signals-react";
 import { FormContainer, Label } from "./SessionFormElements";
 import SettingsCheckboxes from "../../../containers/SettingsCheckboxes/SettingsCheckboxes";
+import UserName from "./UserName";
+import SettingName from "./SettingName";
+import { UserSettingsState } from "../../../@types/Setting";
+const cursorPointerStyle = { cursor: "pointer" };
 
-// @ts-ignore
-const SessionForm = ({ theme, setTheme }) => {
-  const themeContext = useContext(ThemeContext);
+const SessionForm: FC<{
+  theme: "light" | "dark";
+  setTheme: (value: "light" | "dark") => void;
+}> = ({ theme, setTheme }) => {
+  const { sessionState, userSettingsState, setUserSettingsState } =
+    useSktioStore((state) => ({
+      sessionState: state.sessionState,
+      userSettingsState: state.userSettingsState,
+      setUserSettingsState: state.setUserSettingsState,
+    }));
 
-  const { sessionState } = useSktioStore((state) => ({
-    sessionState: state.sessionState,
-  }));
+  const userSettingWithVisibleUI: keyof UserSettingsState | undefined =
+    Object.freeze(
+      Object.keys(userSettingsState)?.find(
+        (key) =>
+          userSettingsState[key as keyof UserSettingsState]?.UIVisible === true
+      )
+    ) as keyof UserSettingsState | undefined;
 
   const showSettings = signal(true);
 
@@ -29,32 +39,33 @@ const SessionForm = ({ theme, setTheme }) => {
     selectedCheckboxIndex.value = index;
   };
 
+  const selectedCheckboxLabel: CheckboxRecord["label"] = checkboxData?.find(
+    (record) => record.apiName === userSettingWithVisibleUI
+  )?.label;
+
   return (
     <FormContainer>
       <Label>
-        {selectedCheckboxIndex.value !== -1 ? (
+        {userSettingWithVisibleUI ? (
           <div
-            style={{ cursor: "pointer" }}
+            style={cursorPointerStyle}
             onClick={() => {
-              setShowSettings(true);
-              setCheckboxIndex(-1);
+              if (!userSettingWithVisibleUI || !userSettingsState) return;
+              // alert(
+              //   JSON.stringify(userSettingsState[userSettingWithVisibleUI])
+              // );
+              userSettingsState[userSettingWithVisibleUI].UIVisible = false;
+
+              setUserSettingsState(userSettingsState);
             }}
           >
-            <FlexBoxWithSpacing gap={8}>
-              <Icon icon="arrow-left" size="2x" />
-              <BigText weight="bold">
-                {checkboxData[selectedCheckboxIndex.value].label}
-              </BigText>
-            </FlexBoxWithSpacing>
+            <SettingName selectedCheckboxLabel={selectedCheckboxLabel} />
           </div>
         ) : (
-          <FlexBoxWithSpacing gap={8}>
-            <BigText weight="bold">User ID:</BigText>
-            <BigText weight="bolder">{sessionState.userId}</BigText>
-            <UserCircle
-              color={themeContext?.userColors[sessionState.userColorIndex]}
-            />
-          </FlexBoxWithSpacing>
+          <UserName
+            userId={sessionState.userId}
+            userColorIndex={sessionState.userColorIndex}
+          />
         )}
       </Label>
       <SettingsCheckboxes

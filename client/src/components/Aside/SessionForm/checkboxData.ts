@@ -1,5 +1,5 @@
 export interface CheckboxRecord {
-  name: string;
+  apiName: string;
   label: string;
   headerText: string;
   helpText: string;
@@ -7,14 +7,14 @@ export interface CheckboxRecord {
 
 export const checkboxData: CheckboxRecord[] = [
   {
-    name: "changeTheme",
+    apiName: "changeTheme",
     label: "Change Theme",
     headerText: "Do you want to change the color scheme of the website?",
     helpText:
       "A toggle for changing website color mode is important because the default bright white background with black text can be harsh on the eyes, especially during extended use. Dark mode or low-light mode options can help reduce eye strain and improve the overall user experience.",
   },
   {
-    name: "aceptMedia",
+    apiName: "aceptMedia",
     label: "Accept Media",
     headerText:
       "Do you want to recieve and accept media contents in your chat?",
@@ -22,35 +22,35 @@ export const checkboxData: CheckboxRecord[] = [
       "This feature allows media such as images and audio to be displayed in the chat. This feature may be disabled to conserve bandwidth or for security reasons.",
   },
   {
-    name: "aceptLinks",
+    apiName: "aceptLinks",
     label: "Accept Links",
     headerText: "Do you want to recieve external links in your chat?",
     helpText:
       "This feature enables links to be displayed in the chat. For security reasons, links may be disabled by default.",
   },
   {
-    name: "useHistory",
+    apiName: "useHistory",
     label: "Use History",
     headerText: "Do you want to have your chat history in an active session?",
     helpText:
       "This feature allows you to view past messages in the chat. If disabled, only the most recent message will be displayed and you won't be able to see your own messages.",
   },
   {
-    name: "showStatus",
+    apiName: "showStatus",
     label: "Show Status",
     headerText: "Do you want to show when you are online?",
     helpText:
       "Show to the others if you are AFK (away from keyboard) or OTK (on the keyboard)",
   },
   {
-    name: "revealLocation",
+    apiName: "revealLocation",
     label: "Show Location",
     headerText: "Do you want to share your locations in public rooms?",
     helpText:
       "This feature allows you to share your approximate location with others in the chat based on your IP address. Please note that this information may not be accurate if you are using a VPN or proxy. Additionally, we do not store this information on any database.",
   },
   {
-    name: "useLocalStorage",
+    apiName: "useLocalStorage",
     label: "Use Local Storage",
     headerText: "Do you want to save your settings for the further sessions?",
     helpText:

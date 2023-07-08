@@ -75,7 +75,7 @@ const Chat: FC<{ socket: Socket }> = ({ socket }) => {
   return (
     <>
       <Messages isSmallDevice={false}>
-        {userSettingsState.useHistory &&
+        {userSettingsState.useHistory.value &&
           messagesState.length > 0 &&
           messagesState.map(mapMessages)}
       </Messages>

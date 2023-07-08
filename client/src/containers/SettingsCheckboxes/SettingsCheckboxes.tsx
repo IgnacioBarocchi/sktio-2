@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import {
   CheckboxContainer,
   SettingOption,
-  SettingToggle,
+  UpdateSettingToggle,
 } from "../../components/Aside/SessionForm/SessionFormElements";
 import { checkboxData } from "../../components/Aside/SessionForm/checkboxData";
 import { useSktioStore } from "../../store/store";
@@ -35,7 +35,6 @@ const SettingsCheckboxes: FC<{
   const updateSessionState = (value: {
     useHistory?: boolean;
     revealLocation?: boolean;
-    useButtons?: boolean;
     aceptMedia?: boolean;
     aceptLinks?: boolean;
   }) => {
@@ -69,14 +68,7 @@ const SettingsCheckboxes: FC<{
     <>
       {checkboxData.map((checkbox, index) => (
         <CheckboxContainer>
-          {selectedCheckboxIndex.value === index ? (
-            <SettingToggle
-              theme={theme}
-              settings={userSettingsState}
-              checkbox={checkbox}
-              handleCheck={handleCheck}
-            />
-          ) : (
+          {selectedCheckboxIndex.value !== index ? (
             <SettingOption
               showSettings={showSettings}
               setShowSettings={setShowSettings}
@@ -84,6 +76,13 @@ const SettingsCheckboxes: FC<{
               index={index}
               setCheckboxIndex={setCheckboxIndex}
               checkbox={checkbox}
+            />
+          ) : (
+            <UpdateSettingToggle
+              theme={theme}
+              settings={userSettingsState}
+              checkbox={checkbox}
+              handleCheck={handleCheck}
             />
           )}
         </CheckboxContainer>

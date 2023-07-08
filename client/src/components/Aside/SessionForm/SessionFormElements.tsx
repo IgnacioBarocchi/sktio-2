@@ -64,7 +64,7 @@ export const SettingOption: FC<{
   setCheckboxIndex,
   checkbox,
 }) => {
-  const optionState = settings[checkbox?.name as keyof UserSettingsState]
+  const optionState = settings[checkbox?.apiName as keyof UserSettingsState]
     ? "On"
     : "Off";
 
@@ -95,7 +95,7 @@ const SettingContainer = styled.div`
   }
 `;
 
-export const SettingToggle: FC<{
+export const UpdateSettingToggle: FC<{
   theme: "light" | "dark";
   settings: UserSettingsState;
   checkbox: CheckboxRecord;

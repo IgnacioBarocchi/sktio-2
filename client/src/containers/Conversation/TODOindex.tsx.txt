@@ -41,7 +41,7 @@ const Conversation = () => {
 
   return (
     <Messages isSmallDevice={false}>
-      {userSettingsState.useHistory && messagesState && (
+      {userSettingsState.useHistory.value && messagesState && (
         <For each={messages}>
           {(singleMessage: MessageType, i: number) => {
             const { username, color } = getMessageMetadata(

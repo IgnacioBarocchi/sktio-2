@@ -24,13 +24,30 @@ export const useSktioStore = create<SktioStoreState>()(
     },
 
     userSettingsState: {
-      useHistory: true,
-      revealLocation: false,
-      useButtons: false,
-      aceptMedia: true,
-      aceptLinks: true,
-      useLocalStorage: false,
-      sessionSettingsIsVisible: true,
+      useHistory: {
+        UIVisible: true,
+        value: true,
+      },
+      revealLocation: {
+        UIVisible: false,
+        value: false,
+      },
+      aceptMedia: {
+        UIVisible: false,
+        value: true,
+      },
+      aceptLinks: {
+        UIVisible: false,
+        value: true,
+      },
+      useLocalStorage: {
+        UIVisible: false,
+        value: false,
+      },
+      sessionSettingsIsVisible: {
+        UIVisible: false,
+        value: true,
+      },
     },
     setUserSettingsState: (userSettingsState: UserSettingsState): void => {
       set({ userSettingsState });

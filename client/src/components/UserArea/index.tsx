@@ -78,19 +78,14 @@ const UserArea: FC<{ socket: Socket }> = ({ socket }) => {
             message.value = event.target.value;
           }}
           handleInputOnKeyPress={(event: { key: string }) => {
-            if (
-              // !settings.useButtons &&
-              // !userSettingsState.useButtons &&
-              event.key === "Enter" &&
-              message.value !== ""
-            ) {
+            if (event.key === "Enter" && message.value !== "") {
               sendMessage();
             }
           }}
         />
       </div>
       {/* {settings.aceptMedia && ( */}
-      {userSettingsState.aceptMedia && (
+      {userSettingsState.aceptMedia.value && (
         <div
           style={{
             gridArea: "input-media-area",
