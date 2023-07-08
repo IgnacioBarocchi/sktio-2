@@ -22,7 +22,7 @@ export const getSocketEventHandlers = (
   setRoomsState: (value: RoomsState) => void
 ) => {
   const dispatchNewMessageData = (data: ReceiveMessagePayload) => {
-    alert("ReceiveMessage");
+    console.log("ReceiveMessage");
     const recievedPayload: RecievedMessagePayload = {
       read: false,
       text: data.message,
@@ -34,7 +34,7 @@ export const getSocketEventHandlers = (
       fromUserAlias: data.userAlias,
     };
 
-    messagesState.recieved.push(recievedPayload);
+    messagesState.push(recievedPayload);
     setMessagesState(messagesState);
   };
 
@@ -42,7 +42,7 @@ export const getSocketEventHandlers = (
     data: SystemMessagePayload,
     text: SystemMessageType
   ) => {
-    alert("update room");
+    console.log("update room");
 
     const systemPayload: SystemMessagePayload = {
       fromSystem: true,
@@ -52,7 +52,7 @@ export const getSocketEventHandlers = (
       text,
       isSent: false,
     };
-    messagesState.system.push(systemPayload);
+    messagesState.push(systemPayload);
     setMessagesState(messagesState);
     // messagesState.system.push(systemPayload);
     // dispatch({
@@ -71,7 +71,7 @@ export const getSocketEventHandlers = (
     {
       eventName: RECEIVE_ROOM_UPDATE_EVENT,
       handler: (data: SystemMessagePayload) => {
-        alert("dentro del hadler " + RECEIVE_ROOM_UPDATE_EVENT);
+        console.log("dentro del hadler " + RECEIVE_ROOM_UPDATE_EVENT);
         dispatchRoomUpdateData(
           data,
           system.Label.LEFT_THE_ROOM as unknown as SystemMessageType
@@ -81,7 +81,7 @@ export const getSocketEventHandlers = (
     {
       eventName: RECEIVE_JOINING_EVENT,
       handler: (data: SystemMessagePayload) => {
-        alert("dentro del hadler " + RECEIVE_JOINING_EVENT);
+        console.log("dentro del hadler " + RECEIVE_JOINING_EVENT);
         dispatchRoomUpdateData(
           data,
           system.Label.JOINED_THE_ROOM as unknown as SystemMessageType
@@ -91,7 +91,7 @@ export const getSocketEventHandlers = (
     {
       eventName: SET_PUBLIC_ROOMS,
       handler: (data: PublicRoom[]) => {
-        alert("dentro del hadler " + SET_PUBLIC_ROOMS);
+        console.log("dentro del hadler " + SET_PUBLIC_ROOMS);
         roomsState.publicRooms = data;
         setRoomsState(roomsState);
         // dispatch({ type: "SET_PUBLIC_ROOMS", payload: data })

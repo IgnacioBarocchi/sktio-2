@@ -9,6 +9,7 @@ import SoundVisualizer from "./AudiRecorderElements";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import { useSktioStore } from "../../../store/store";
 import { MediaType } from "../../../@types/WebSocketPayloads";
+import { signal } from "@preact/signals-react";
 
 const AudioRecorder = ({ socket }: { socket: Socket }) => {
   // const {
@@ -19,14 +20,14 @@ const AudioRecorder = ({ socket }: { socket: Socket }) => {
   const { sessionState } = useSktioStore((state) => ({
     sessionState: state.sessionState,
   }));
-  const [isRecording, setIsRecording] = useState(false);
+  const isRecording = signal(false);
 
   const startRecording = () => {
-    setIsRecording(true);
+    isRecording.value = true;
   };
 
   const stopRecording = () => {
-    setIsRecording(false);
+    isRecording.value = false;
   };
 
   // todo dispatch recording event
@@ -59,7 +60,7 @@ const AudioRecorder = ({ socket }: { socket: Socket }) => {
 
   return (
     <FlexBoxWithSpacing gap={8}>
-      {!isRecording ? (
+      {!isRecording.value ? (
         <Icon icon={"microphone"} onClick={startRecording} size={"2x"} />
       ) : (
         <Icon size={"2x"} icon={"microphone-slash"} onClick={stopRecording} />
@@ -70,7 +71,7 @@ const AudioRecorder = ({ socket }: { socket: Socket }) => {
         onData={() => {
           console.log("todo dispatch recording event");
         }}
-        isRecording={isRecording}
+        isRecording={isRecording.value}
       />
     </FlexBoxWithSpacing>
   );

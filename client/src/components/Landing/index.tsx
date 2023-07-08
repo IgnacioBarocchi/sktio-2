@@ -5,13 +5,7 @@ import { Card } from "../UI/Card";
 import { StyledInputWithButton } from "../UI/Input";
 import { FlexBoxWithSpacing } from "../UI/Spacing";
 import { BigText, MediumText } from "../UI/Text";
-import {
-  AliasContainer,
-  Content,
-  DeployYourOwn,
-  GoOnline,
-  SampleConversation,
-} from "./LandingElements";
+import { Content } from "./LandingElements";
 import { useSktioStore } from "../../store/store";
 import BubblesScene from "../UI/BubblesScene";
 

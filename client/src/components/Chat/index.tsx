@@ -1,5 +1,4 @@
-import { RefObject, useContext, useRef } from "react";
-import { useApplicationState } from "../../containers/Context";
+import { FC, RefObject, useContext, useRef } from "react";
 import { Messages, ObservedToScrollContainer } from "./ChatElements";
 import { Socket } from "socket.io-client";
 import useOnScreen from "../../containers/useOnScreen";
@@ -9,16 +8,7 @@ import UserArea from "../UserArea";
 import { ThemeContext } from "styled-components";
 import { useSktioStore } from "../../store/store";
 
-interface Message extends MessageOPTProps {
-  fromUserColor: string;
-  fromUserId: string;
-  text: string | undefined;
-  isSent: boolean;
-  fromSystem?: boolean;
-  fromUserAlias: string;
-}
-
-const Chat = ({ socket }: { socket: Socket }) => {
+const Chat: FC<{ socket: Socket }> = ({ socket }) => {
   const themeContext = useContext(ThemeContext);
 
   const { sessionState, userSettingsState, messagesState } = useSktioStore(
@@ -86,8 +76,8 @@ const Chat = ({ socket }: { socket: Socket }) => {
     <>
       <Messages isSmallDevice={false}>
         {userSettingsState.useHistory &&
-          messagesState &&
-          [].concat(...Object.values(messagesState)).map(mapMessages)}
+          messagesState.length > 0 &&
+          messagesState.map(mapMessages)}
       </Messages>
       {sessionState.room && <UserArea socket={socket} />}
     </>

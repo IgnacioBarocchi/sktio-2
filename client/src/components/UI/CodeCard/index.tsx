@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Icon from "../Icon";
 import { FlexBoxWithSpacing } from "../Spacing";
 import { MediumText } from "../Text";
+import { signal } from "@preact/signals-react";
 
 const CardContainer = styled.div`
   display: flex;
@@ -37,13 +38,13 @@ const CopyButton = styled.button`
 `;
 
 const CodeCard = ({ code }: { code: string }) => {
-  const [copied, setCopied] = useState(false);
+  const copied = signal(false);
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(code);
-    setCopied(true);
+    copied.value = true;
     setTimeout(() => {
-      setCopied(false);
+      copied.value = false;
     }, 1000);
   };
 
@@ -52,7 +53,9 @@ const CodeCard = ({ code }: { code: string }) => {
       <CodeBlock>{code}</CodeBlock>
       <CopyButton onClick={handleCopyClick}>
         <FlexBoxWithSpacing gap={8}>
-          <MediumText weight="bold">{copied ? "Copied!" : "Copy"}</MediumText>
+          <MediumText weight="bold">
+            {copied.value ? "Copied!" : "Copy"}
+          </MediumText>
           <Icon icon="copy" />
         </FlexBoxWithSpacing>
       </CopyButton>

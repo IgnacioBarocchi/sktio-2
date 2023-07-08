@@ -9,11 +9,7 @@ import type { SktioStoreState } from "../@types/Store";
 
 export const useSktioStore = create<SktioStoreState>()(
   subscribeWithSelector((set) => ({
-    messagesState: {
-      sent: [],
-      recieved: [],
-      system: [],
-    },
+    messagesState: [],
     setMessagesState: (messagesState: MessagesState): void => {
       set({ messagesState });
     },

@@ -3,13 +3,13 @@ import { ReactNode, RefObject } from "react";
 import styled from "styled-components";
 import { Ol } from "../UI/Ol";
 import UI from "../../constants/UI";
+import { FCResizable, Resizable } from "../../@types/Resizable";
 
-// the wrapper of messages
-export const Messages = styled(Ol).attrs(
-  (props: { isSmallDevice: boolean }) => ({
-    isSmallDevice: props.isSmallDevice,
-  })
-)`
+const OlAttributes: FCResizable = (props: Resizable) => ({
+  isSmallDevice: props.isSmallDevice,
+});
+
+export const Messages = styled(Ol).attrs(OlAttributes)`
   // !chore 100 - (4vh el borde redondo de la esquina) - (4vh el nav del aside) - (8px de extra padding de user area)
   height: calc(92vh - 8px);
   padding-top: 2rem;
@@ -25,7 +25,7 @@ export const Messages = styled(Ol).attrs(
     !isSmallDevice ? `${UI.dimensions.map.get("desktop-aside")}px` : ""};
 `;
 
-const ObserverContainer = styled.li<{ ref: any }>`
+const ObserverContainer = styled.li<{ ref: RefObject<HTMLDivElement> }>`
   width: 100%;
 `;
 

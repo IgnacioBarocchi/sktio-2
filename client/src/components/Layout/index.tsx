@@ -45,7 +45,8 @@ const Layout: FC<LayoutProps> = ({
       <AsideMenu socket={socket} setTheme={setTheme} theme={theme} />
       {!isSmallDevice && (
         <Main>
-          <SystemMessage />
+          {/* //todo imporove */}
+          {/* <SystemMessage /> */}
           {sessionState.room ? (
             <Chat socket={socket} />
           ) : (

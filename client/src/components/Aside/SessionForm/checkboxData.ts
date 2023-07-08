@@ -1,4 +1,11 @@
-export const checkboxData = [
+export interface CheckboxRecord {
+  name: string;
+  label: string;
+  headerText: string;
+  helpText: string;
+}
+
+export const checkboxData: CheckboxRecord[] = [
   {
     name: "changeTheme",
     label: "Change Theme",

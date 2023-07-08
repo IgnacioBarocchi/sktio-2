@@ -45,7 +45,8 @@ const AsideMenu = ({ socket, theme, setTheme }) => {
         </STabPanel>
         {UIState.isSmallDevice && (
           <STabPanel>
-            <SystemMessage />
+            {/* //todo improve */}
+            {/* <SystemMessage /> */}
             {sessionState.room ? (
               <Chat socket={socket} />
             ) : (

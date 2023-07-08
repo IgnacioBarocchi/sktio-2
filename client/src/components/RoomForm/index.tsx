@@ -70,7 +70,7 @@ const RoomForm = () => {
         const successMessage = formData.isPrivate
           ? "Private room created successfully"
           : "Public room created successfully";
-        // alert("chore add to system messages: " + successMessage);
+        // console.log("chore add to system messages: " + successMessage);
         setFormData({
           room: "",
           token: Array(8).fill(" ").join(""),
@@ -82,7 +82,7 @@ const RoomForm = () => {
         });
       })
       .catch((error) => {
-        alert(error.message);
+        console.log(error.message);
       });
   };
 
@@ -97,7 +97,7 @@ const RoomForm = () => {
             {
               icon: "arrow-turn-down",
               onClick: () => {
-                alert("Please");
+                console.log("Please");
               },
             },
           ]}

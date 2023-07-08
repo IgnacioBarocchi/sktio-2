@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Icon from "../../UI/Icon";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import { BigText, SmallText } from "../../UI/Text";
@@ -7,22 +6,19 @@ import {
   FooterContainer,
   ToggleButton,
 } from "./FooterElements";
-
+import { signal } from "@preact/signals-react";
 const Footer = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpen = signal<boolean>(false);
 
   const toggleFooter = () => {
-    setIsOpen(!isOpen);
+    isOpen.value = !isOpen.value;
   };
 
   return (
     <FooterContainer>
-      <FeaturesContainer isOpen={isOpen}>
+      <FeaturesContainer isOpen={isOpen.value}>
         <ToggleButton onClick={toggleFooter}>
-          <Icon
-            icon={isOpen ? "wrench" : "code-branch"}
-            size="2x"
-          />
+          <Icon icon={isOpen.value ? "wrench" : "code-branch"} size="2x" />
         </ToggleButton>
 
         <FlexBoxWithSpacing gap={18}>
@@ -49,4 +45,3 @@ const Footer = () => {
 };
 
 export default Footer;
-/

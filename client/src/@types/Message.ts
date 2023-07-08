@@ -1,4 +1,12 @@
+import { type } from "os";
 import { MediaType } from "./WebSocketPayloads";
+const Emitters = {
+  OWNER: "OWNER",
+  OTHER: "OTHER",
+  SYSTEM: "SYSTEM",
+} as const;
+
+type Emitter = keyof typeof Emitters;
 
 interface TextMessage {
   read?: boolean;
@@ -15,12 +23,18 @@ export interface Message extends TextMessage, MediaMessage {
   fromUserColorIndex: number;
   fromUserAlias?: string;
   userColorIndex?: number;
+  fromSystem?: boolean;
 }
 
-export interface MessagesState {
-  sent: Message[];
-  recieved: Message[];
-  system: Message[];
+export type MessagesState = Message[];
+//{
+//   sent: Message[];
+//   recieved: Message[];
+//   system: Message[];
+// }
+
+export interface MessageFromSocketPayload {
+  emitter: Emitter;
 }
 
 // todo organizar el obj message para que sea un obj y no un array

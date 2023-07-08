@@ -1,0 +1,20 @@
+import { Socket } from "socket.io-client";
+import UserArea from "../UserArea";
+import { useSktioStore } from "../../store/store";
+import Conversation from "../../containers/Conversation";
+
+const Chat = ({ socket }: { socket: Socket }) => {
+  const { sessionState } = useSktioStore((state) => ({
+    sessionState: state.sessionState,
+  }));
+
+  return (
+    <>
+      {/* //todo use conversation */}
+      {/* <Conversation /> */}
+      {sessionState.room && <UserArea socket={socket} />}
+    </>
+  );
+};
+
+export default Chat;

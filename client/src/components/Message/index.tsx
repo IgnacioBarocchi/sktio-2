@@ -26,7 +26,7 @@ const Message = ({
   }, []);
 
   if (fromSystem) {
-    alert("System!");
+    console.log("System!");
     return <SystemMessage color={color} id={id} message={message} />;
   }
 

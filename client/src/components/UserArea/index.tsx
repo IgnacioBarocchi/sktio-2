@@ -1,8 +1,9 @@
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { FC, SetStateAction, useRef } from "react";
 import { EmojiButtom, Container } from "./UserAreaElements";
 // @ts-ignore
 import useDimensions from "react-use-dimensions";
-import SelectEmoji from "./EmojiButton";
+// todo emoji button
+// import SelectEmoji from "./EmojiButton";
 import MediaUploader from "./MediaUploader";
 import AudioRecorder from "./AuidoRecorder";
 
@@ -11,10 +12,11 @@ import { StyledInputWithButton } from "../UI/Input";
 import Icon from "../UI/Icon";
 import { FlexBoxWithSpacing } from "../UI/Spacing";
 import { useSktioStore } from "../../store/store";
+import { signal } from "@preact/signals-react";
+import { Socket } from "socket.io-client";
 
-// @ts-ignore
-const UserArea = ({ socket }) => {
-  const [message, setMessage] = useState("");
+const UserArea: FC<{ socket: Socket }> = ({ socket }) => {
+  const message = signal("");
 
   const { messagesState, setMessagesState, userSettingsState, sessionState } =
     useSktioStore((state) => ({
@@ -27,7 +29,7 @@ const UserArea = ({ socket }) => {
 
   const sendMessage = () => {
     socket.emit(SEND_MESSAGE_EVENT, {
-      message,
+      message: message.value,
       room: sessionState.room,
       userId: sessionState.userId,
       // userColor: sessionState.userColor,
@@ -36,13 +38,14 @@ const UserArea = ({ socket }) => {
     });
 
     // UPDATE_MESSAGING_DATA_STATE
-    const payload = { text: message, isSent: true };
-    messagesState.sent.push(payload);
+    const payload = { text: message.value, isSent: true };
+    console.log(messagesState);
+    messagesState.push(payload);
     setMessagesState(messagesState);
 
     // @ts-ignore
     inputRef.current.value = "";
-    setMessage("");
+    message.value = "";
   };
   const inputRef = useRef(null);
 
@@ -51,12 +54,7 @@ const UserArea = ({ socket }) => {
       {/* {emojiPickerIsVisible && <SelectEmoji inputRef={inputRef} />} */}
       <EmojiButtom
         onClick={() => {
-          /* dispatch({
-             type: "UPDATE_UI_STATE",
-             payload: {
-               emojiPickerIsVisible: !emojiPickerIsVisible,
-             },
-           });*/
+          // todo make emoji visible
         }}
       >
         <Icon icon="face-smile" size={"2x"} />
@@ -77,14 +75,14 @@ const UserArea = ({ socket }) => {
           handleInputOnChange={(event: {
             target: { value: SetStateAction<string> };
           }) => {
-            setMessage(event.target.value);
+            message.value = event.target.value;
           }}
           handleInputOnKeyPress={(event: { key: string }) => {
             if (
               // !settings.useButtons &&
               // !userSettingsState.useButtons &&
               event.key === "Enter" &&
-              message !== ""
+              message.value !== ""
             ) {
               sendMessage();
             }

@@ -20,8 +20,8 @@ const SessionForm = ({ theme, setTheme }) => {
   //   state: { session, settings },
   //   dispatch,
   // } = useApplicationState();
-  const [showSettings, setShowSettings] = useState(true);
-  const [selectedCheckboxIndex, setSelectedCheckboxIndex] = useState(-1);
+  const [showSettings, setShowSettings] = signal(true);
+  const [selectedCheckboxIndex, setSelectedCheckboxIndex] = signal(-1);
 
   const dispatchUpdate = (value: {
     useHistory?: boolean;

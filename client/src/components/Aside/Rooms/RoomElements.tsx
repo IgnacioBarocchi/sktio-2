@@ -5,6 +5,7 @@ import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import { MediumText } from "../../UI/Text";
 import { ThemeContext } from "styled-components";
 import { Ol } from "../../UI/Ol/";
+import { signal } from "@preact/signals-react";
 
 export const RoomsContainer = styled(Ol).attrs(
   (props: { isSmallDevice: boolean }) => ({
@@ -89,7 +90,7 @@ export const RoomTopic = ({
   children: React.ReactNode | JSX.Element;
   isHovered: boolean;
 }) => {
-  const [isNotVisible, setIsNotVisible] = useState(true);
+  const isNotVisible = signal(true);
   const contentRef = useRef(null);
   const containerRef = useRef(null);
   const themeContext = useContext(ThemeContext);
@@ -108,7 +109,7 @@ export const RoomTopic = ({
     // @ts-ignore
     const containerWidth = containerRef?.current?.offsetWidth;
 
-    setIsNotVisible(contentWidth <= containerWidth);
+    isNotVisible.value = contentWidth <= containerWidth;
   }, []);
 
   return (

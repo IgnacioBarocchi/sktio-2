@@ -1,80 +1,49 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import {
-  CheckboxContainer,
-  FormContainer,
-  Label,
-  Option,
-  Setting,
-} from "./SessionFormElements";
-import { useApplicationState } from "../../../containers/Context";
-import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import Icon from "../../UI/Icon";
+import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import { BigText } from "../../UI/Text";
 import { UserCircle } from "../../Message/MessageElements";
 import { checkboxData } from "./checkboxData";
 import { useSktioStore } from "../../../store/store";
+import { signal } from "@preact/signals-react";
+import { FormContainer, Label } from "./SessionFormElements";
+import SettingsCheckboxes from "../../../containers/SettingsCheckboxes/SettingsCheckboxes";
 
 // @ts-ignore
 const SessionForm = ({ theme, setTheme }) => {
-  const [showSettings, setShowSettings] = useState(true);
-  const [selectedCheckboxIndex, setSelectedCheckboxIndex] = useState(-1);
-
-  const { sessionState, setSessionState, userSettingsState } = useSktioStore(
-    (state) => ({
-      sessionState: state.sessionState,
-      setSessionState: state.setSessionState,
-      userSettingsState: state.userSettingsState,
-    })
-  );
-
-  const dispatchUpdate = (value: {
-    useHistory?: boolean;
-    revealLocation?: boolean;
-    useButtons?: boolean;
-    aceptMedia?: boolean;
-    aceptLinks?: boolean;
-  }) => {
-    setSessionState({ ...sessionState, ...value });
-    // dispatch({ type: "UPDATE_SETTINGS_STATE", payload: value });
-  };
-
   const themeContext = useContext(ThemeContext);
 
-  const [showHelpText, setShowHelpText] = useState<boolean>(false);
+  const { sessionState } = useSktioStore((state) => ({
+    sessionState: state.sessionState,
+  }));
 
-  const handleCheck = (event: { target: { checked: any; name: any } }) => {
-    if (event.target.name === "changeTheme") {
-      setTheme(theme === "light" ? "dark" : "light");
-      return;
-    }
+  const showSettings = signal(true);
 
-    if (event.target.name === "helpText") {
-      setShowHelpText(!showHelpText);
-      return;
-    }
+  const setShowSettings = (value: boolean) => {
+    showSettings.value = value;
+  };
 
-    const { checked, name } = event.target;
-    dispatchUpdate({
-      [name]: checked,
-    });
+  const selectedCheckboxIndex = signal(-1);
+  const setCheckboxIndex = (index: number) => {
+    selectedCheckboxIndex.value = index;
   };
 
   return (
     <FormContainer>
       <Label>
-        {selectedCheckboxIndex !== -1 ? (
+        {selectedCheckboxIndex.value !== -1 ? (
           <div
             style={{ cursor: "pointer" }}
             onClick={() => {
               setShowSettings(true);
-              setSelectedCheckboxIndex(-1);
+              setCheckboxIndex(-1);
             }}
           >
             <FlexBoxWithSpacing gap={8}>
               <Icon icon="arrow-left" size="2x" />
               <BigText weight="bold">
-                {checkboxData[selectedCheckboxIndex].label}
+                {checkboxData[selectedCheckboxIndex.value].label}
               </BigText>
             </FlexBoxWithSpacing>
           </div>
@@ -83,32 +52,19 @@ const SessionForm = ({ theme, setTheme }) => {
             <BigText weight="bold">User ID:</BigText>
             <BigText weight="bolder">{sessionState.userId}</BigText>
             <UserCircle
-              color={themeContext.userColors[sessionState.userColorIndex]}
+              color={themeContext?.userColors[sessionState.userColorIndex]}
             />
           </FlexBoxWithSpacing>
         )}
       </Label>
-      {checkboxData.map((checkbox, index) => (
-        <CheckboxContainer>
-          {selectedCheckboxIndex === index ? (
-            <Setting
-              theme={theme}
-              settings={userSettingsState}
-              checkbox={checkbox}
-              handleCheck={handleCheck}
-            />
-          ) : (
-            <Option
-              showSettings={showSettings}
-              settings={userSettingsState}
-              index={index}
-              setSelectedCheckboxIndex={setSelectedCheckboxIndex}
-              setShowSettings={setShowSettings}
-              checkbox={checkbox}
-            />
-          )}
-        </CheckboxContainer>
-      ))}
+      <SettingsCheckboxes
+        theme={theme}
+        setTheme={setTheme}
+        selectedCheckboxIndex={selectedCheckboxIndex}
+        setCheckboxIndex={setCheckboxIndex}
+        showSettings={showSettings}
+        setShowSettings={setShowSettings}
+      />
     </FormContainer>
   );
 };

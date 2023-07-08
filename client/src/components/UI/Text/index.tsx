@@ -49,8 +49,50 @@ const Text = styled.span<{
   }
 `;
 
-export const SmallText = styled(Text).attrs({ size: "small" })``;
+export const SmallText = styled(Text).attrs(
+  (props: {
+    color?: string;
+    textType?: "error" | "success" | "warning" | "accent";
+    isSent?: boolean;
+    size: "small" | "medium" | "big";
+    weight?: "normal" | "lighter" | "italic" | "bold" | "bolder" | "bold";
+  }) => ({
+    color: props.color,
+    textType: props.textType,
+    isSent: props.isSent,
+    size: props.size,
+    weight: props.weight,
+  })
+)``;
 
-export const MediumText = styled(Text).attrs({ size: "medium" })``;
+export const MediumText = styled(Text).attrs(
+  (props: {
+    color?: string;
+    textType?: "error" | "success" | "warning" | "accent";
+    isSent?: boolean;
+    size: "small" | "medium" | "big";
+    weight?: "normal" | "lighter" | "italic" | "bold" | "bolder" | "bold";
+  }) => ({
+    color: props.color,
+    textType: props.textType,
+    isSent: props.isSent,
+    size: props.size,
+    weight: props.weight,
+  })
+)``;
 
-export const BigText = styled(Text).attrs({ size: "big" })``;
+export const BigText = styled(Text).attrs(
+  (props: {
+    color?: string;
+    textType?: "error" | "success" | "warning" | "accent";
+    isSent?: boolean;
+    size: "small" | "medium" | "big";
+    weight?: "normal" | "lighter" | "italic" | "bold" | "bolder" | "bold";
+  }) => ({
+    color: props.color,
+    textType: props.textType,
+    isSent: props.isSent,
+    size: props.size,
+    weight: props.weight,
+  })
+)``;

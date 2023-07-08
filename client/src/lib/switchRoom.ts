@@ -16,11 +16,7 @@ const updateSession = (
 const clearConversation = (
   setMessagesState: (messagesState: MessagesState) => void
 ) => {
-  setMessagesState({
-    sent: [],
-    recieved: [],
-    system: [],
-  });
+  setMessagesState([]);
 };
 
 const notifyOthers = (socket: Socket, sessionState: SessionState) => {

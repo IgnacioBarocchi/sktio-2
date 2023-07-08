@@ -1,23 +1,22 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Icon from "../UI/Icon";
 import { useSktioStore } from "../../store/store";
+import { signal } from "@preact/signals-react";
 
 const SystemMessage = () => {
-  // const { state, dispatch } = useApplicationState();
-  // const [isVisible, setIsVisible] = useState(state.systemMessage.message);
-
   const { messagesState, setMessagesState } = useSktioStore((state) => ({
     messagesState: state.messagesState,
     setMessagesState: state.setMessagesState,
   }));
 
-  const [isVisible, setIsVisible] = useState(messagesState?.system.length > 0);
+  // todo filter whom emitter is system
+  // messagesState?.system.length > 0
+  const isVisible = signal(false);
 
   const handleClose = () => {
-    setIsVisible(false);
-    messagesState.system = [];
-    setMessagesState(messagesState);
+    isVisible.value = false;
+    // messagesState.system = [];
+    // setMessagesState(messagesState);
   };
 
   if (!isVisible) {
@@ -47,7 +46,7 @@ const SystemMessage = () => {
       // variant={state.systemMessage.type}
       // variant={messagesState.currentSystemMessage.type}
       variant={"sucess"}
-      isVisible={isVisible}
+      isVisible={isVisible.value}
     >
       {/* // TODO */}
       {/* <MediumText>{state.systemMessage.message}</MediumText> */}

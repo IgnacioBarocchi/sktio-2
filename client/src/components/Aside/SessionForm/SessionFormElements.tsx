@@ -1,10 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import styled from "styled-components";
 import { StyledInput } from "../../UI/Input";
 import { FlexBoxWithSpacing } from "../../UI/Spacing";
 import { MediumText, SmallText } from "../../UI/Text";
 import Toggle from "../../UI/Toggle";
 import Icon from "../../UI/Icon";
+import { UserSettingsState } from "../../../@types/Setting";
+import { Signal } from "@preact/signals-react";
+import { CheckboxRecord } from "./checkboxData";
 
 export const FormContainer = styled.div`
   padding: 16px;
@@ -37,36 +40,6 @@ export const HelpText = styled(SmallText)`
   color: ${({ theme }) => theme.color.accent};
 `;
 
-const SettingContainer = styled.div`
-  & > * {
-    margin-bottom: 20px;
-  }
-`;
-// @ts-ignore
-export const Setting = ({ theme, settings, checkbox, handleCheck }) => {
-  return (
-    <SettingContainer>
-      <div>
-        <MediumText weight="bolder">{checkbox.headerText}</MediumText>
-      </div>
-
-      <Toggle
-        gap={"space-between"}
-        defaultChecked={settings[checkbox.name]}
-        name={checkbox.name}
-        label={
-          checkbox.name !== "changeTheme"
-            ? checkbox.label
-            : `change to ${theme === "light" ? "dark" : "light"}`
-        }
-        onChange={handleCheck}
-      />
-
-      <HelpText weight="bold">{checkbox.helpText}</HelpText>
-    </SettingContainer>
-  );
-};
-
 const OptionContainer = styled.div<{ showSettings: boolean }>`
   align-items: center;
   justify-content: space-between;
@@ -76,37 +49,80 @@ const OptionContainer = styled.div<{ showSettings: boolean }>`
   border-bottom: 1px solid ${({ theme }) => theme.color.lowContrast};
 `;
 
-export const Option = ({
-  showSettings,
-  settings,
-  index,
-  setSelectedCheckboxIndex,
-  setShowSettings,
-  checkbox,
-}: {
-  showSettings: boolean;
-  settings: any[];
+export const SettingOption: FC<{
+  settings: UserSettingsState;
+  showSettings: Signal<boolean>;
+  setShowSettings: (value: boolean) => void;
   index: number;
-  setSelectedCheckboxIndex: Dispatch<SetStateAction<number>>;
-  setShowSettings: any;
-  checkbox: any;
+  setCheckboxIndex: (value: number) => void;
+  checkbox: CheckboxRecord;
+}> = ({
+  settings,
+  showSettings,
+  setShowSettings,
+  index,
+  setCheckboxIndex,
+  checkbox,
 }) => {
+  const optionState = settings[checkbox?.name as keyof UserSettingsState]
+    ? "On"
+    : "Off";
+
   return (
     <OptionContainer
-      showSettings={showSettings}
+      showSettings={showSettings.value}
       onClick={() => {
+        alert("click");
         // @ts-ignore
-        setSelectedCheckboxIndex(index);
+        setCheckboxIndex(index);
         setShowSettings(false);
       }}
     >
+      {/* @ts-ignore */}
       <MediumText weight="bold">{checkbox.label}</MediumText>
       <FlexBoxWithSpacing gap={8}>
-        <MediumText weight="bold">
-          {settings[checkbox.name] ? "On" : "Off"}
-        </MediumText>
+        {/* @ts-ignore */}
+        <MediumText weight="bold">{optionState}</MediumText>
         <Icon icon="arrow-right" /*color="red"*/ />
       </FlexBoxWithSpacing>
     </OptionContainer>
+  );
+};
+
+const SettingContainer = styled.div`
+  & > * {
+    margin-bottom: 20px;
+  }
+`;
+
+export const SettingToggle: FC<{
+  theme: "light" | "dark";
+  settings: UserSettingsState;
+  checkbox: CheckboxRecord;
+  handleCheck: (event: { target: { checked: boolean; name: string } }) => void;
+}> = ({ theme, settings, checkbox, handleCheck }) => {
+  console.log(`Setting`);
+  return (
+    <SettingContainer>
+      <div>
+        {/* @ts-ignore */}
+        <MediumText weight="bolder">{checkbox.headerText}</MediumText>
+      </div>
+
+      <Toggle
+        gap={"space-between"}
+        // @ts-ignore
+        defaultChecked={settings[checkbox.name]}
+        name={checkbox.name}
+        label={
+          checkbox.name !== "changeTheme"
+            ? checkbox.label
+            : `change to ${theme === "light" ? "dark" : "light"}`
+        }
+        onChange={handleCheck}
+      />
+      {/* @ts-ignore */}
+      <HelpText weight="bold">{checkbox.helpText}</HelpText>
+    </SettingContainer>
   );
 };

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import AsideMenu from "./Menu";
-import { useApplicationState } from "../../containers/Context";
 import { StyledBackground } from "../UI/Background";
 import { Socket } from "socket.io-client";
 import { HTMLAttributes } from "react";
+import { FCResizable, Resizable } from "../../@types/Resizable";
 
 const FixedMenu = styled(StyledBackground)`
   position: fixed;
@@ -13,18 +13,12 @@ const FixedMenu = styled(StyledBackground)`
   width: 100vw !important;
 `;
 
-interface MyAttProps extends HTMLAttributes<HTMLDivElement> {
-  isSmallDevice?: boolean;
-}
-
-const myatt = (props: MyAttProps) => ({
+const AsideColumnAttributes: FCResizable = (props: Resizable) => ({
   isSmallDevice: props.isSmallDevice,
   as: "aside",
 });
 
-const AsideColumn = styled(FixedMenu).attrs(
-  myatt as (props: MyAttProps) => MyAttProps
-)`
+const AsideColumn = styled(FixedMenu).attrs(AsideColumnAttributes)`
   grid-area: aside-column;
 
   height: 100vh;
